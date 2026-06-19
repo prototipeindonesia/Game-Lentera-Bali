@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lentera Bali - Masuk Game</title>
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #111;
+            font-family: 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- GAME CONTAINER --- */
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('backgroundlentera.png');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- HEADER LOGO WITH ZOOM ANIMATION --- */
+        .logo-container {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30%;
+            max-width: 200px;
+            text-align: center;
+            z-index: 10;
+            animation: logoZoom 3s ease-in-out infinite;
+        }
+
+        .logo-game {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        @keyframes logoZoom {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.06); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        /* --- CHARACTERS --- */
+        .character {
+            position: absolute;
+            bottom: -2%;
+            width: 20%;
+            max-width: 160px;
+            height: auto;
+            z-index: 5;
+            transition: all 0.3s ease;
+        }
+
+        #putu { left: 6%; }
+        #niluh { right: 6%; }
+
+        /* --- FORM INPUT CARD --- */
+        .form-card {
+            background: rgba(84, 44, 14, 0.9); /* Cokelat tua transparan senada tema */
+            border: 4px solid #b0703c;
+            border-radius: 20px;
+            padding: 24px 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 
+                0 10px 25px rgba(0,0,0,0.6),
+                inset 0 0 0 2px #e5a96b;
+            z-index: 10;
+            text-align: center;
+            color: #fff;
+        }
+
+        .form-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #facc15;
+            text-shadow: 2px 2px 0px #321602;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: #e5a96b;
+            font-weight: bold;
+        }
+
+        /* Mengaktifkan select/input agar user bisa mengetik */
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            border: 2px solid #321602;
+            border-radius: 10px;
+            background: #fff;
+            color: #333;
+            outline: none;
+            user-select: text; /* Izinkan seleksi teks untuk input */
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #facc15;
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.5);
+        }
+
+        /* --- PLAY BUTTON --- */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(to bottom, #a3e635, #65a30d);
+            border: 3px solid #3f6204;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 
+                inset 0 1px 3px rgba(255,255,255,0.4),
+                0 4px 0px #273c02,
+                0 6px 10px rgba(0,0,0,0.4);
+            transition: transform 0.05s ease, box-shadow 0.05s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 1px 3px rgba(255,255,255,0.4),
+                0 1px 0px #273c02,
+                0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* --- MUTE BUTTON --- */
+        #mute-toggle {
+            position: absolute;
+            top: 4%;
+            right: 4%;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: linear-gradient(to bottom, #f43f5e, #be123c);
+            box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: white;
+            z-index: 15;
+            transition: transform 0.1s ease;
+        }
+        #mute-toggle:active { transform: scale(0.9); }
+
+        /* --- RESPONSIVE LAYOUT FOR PORTRAIT MODE --- */
+        @media screen and (orientation: portrait) {
+            .logo-container {
+                width: 55%;
+                top: 6%;
+            }
+
+            .form-card {
+                margin-top: 40px;
+                padding: 20px 24px;
+            }
+
+            .character {
+                width: 32%;
+                bottom: -1%;
+            }
+            #putu { left: 2%; }
+            #niluh { right: 2%; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="backsound.mp3" loop></audio>
+
+    <div id="game-container">
+        
+        <div id="mute-toggle" onclick="toggleMusic()">
+            🔊
+        </div>
+
+        <div class="logo-container">
+            <img src="logogame.png" alt="Lentera Bali" class="logo-game">
+        </div>
+
+        <img src="karakterputu.png" alt="Putu" id="putu" class="character">
+
+        <div class="form-card">
+            <h2>PETUALANGAN DIMULAI</h2>
+            <form id="login-form" onsubmit="startGame(event)">
+                <div class="input-group">
+                    <label for="player-name">NAMA PENGGUNA</label>
+                    <input type="text" id="player-name" placeholder="Masukkan namamu..." required autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label for="player-class">KELAS</label>
+                    <select id="player-class" required>
+                        <option value="" disabled selected>Pilih kelas...</option>
+                        <option value="1">Kelas 1</option>
+                        <option value="2">Kelas 2</option>
+                        <option value="3">Kelas 3</option>
+                        <option value="4">Kelas 4</option>
+                        <option value="5">Kelas 5</option>
+                        <option value="6">Kelas 6</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">MASUK GAME ➔</button>
+            </form>
+        </div>
+
+        <img src="karakterniluh.png" alt="Ni Luh" id="niluh" class="character">
+
+    </div>
+
+    <script>
+        const bgMusic = document.getElementById('bg-music');
+        const muteToggle = document.getElementById('mute-toggle');
+        let musicStarted = false;
+
+        // Ambil preferensi audio yang disimpan sebelumnya (jika ada)
+        const cachedMuteStatus = localStorage.getItem('musicMuted');
+        
+        // Atur tampilan tombol audio di awal berdasarkan preferensi
+        if (cachedMuteStatus === 'true') {
+            muteToggle.innerText = "🔇";
+            muteToggle.style.background = "linear-gradient(to bottom, #6b7280, #374151)";
+        }
+
+        // Fungsi Fullscreen
+        function activateFullscreen() {
+            const docElm = document.documentElement;
+            if (!document.fullscreenElement) {
+                if (docElm.requestFullscreen) {
+                    docElm.requestFullscreen().catch(err => console.log(err));
+                } else if (docElm.webkitRequestFullscreen) { 
+                    docElm.webkitRequestFullscreen().catch(err => console.log(err));
+                }
+            }
+        }
+
+        // Jalankan audio dan fullscreen pada interaksi pertama (klik/sentuh)
+        function handleUserInteraction() {
+            if (!musicStarted) {
+                // Mainkan hanya jika user tidak memilih 'mute' sebelumnya
+                if (localStorage.getItem('musicMuted') !== 'true') {
+                    bgMusic.play().then(() => {
+                        musicStarted = true;
+                    }).catch(() => {});
+                } else {
+                    musicStarted = true; 
+                }
+            }
+            activateFullscreen();
+        }
+
+        document.addEventListener('click', handleUserInteraction);
+        document.addEventListener('touchstart', handleUserInteraction);
+
+        // Kontrol Musik On/Off
+        function toggleMusic() {
+            musicStarted = true; 
+            if (bgMusic.paused && localStorage.getItem('musicMuted') === 'true') {
+                bgMusic.play();
+                localStorage.setItem('musicMuted', 'false');
+                muteToggle.innerText = "🔊";
+                muteToggle.style.background = "linear-gradient(to bottom, #f43f5e, #be123c)";
+            } else {
+                bgMusic.pause();
+                localStorage.setItem('musicMuted', 'true');
+                muteToggle.innerText = "🔇";
+                muteToggle.style.background = "linear-gradient(to bottom, #6b7280, #374151)";
+            }
+        }
+
+        // Aksi saat form disubmit (Tombol Masuk diklik)
+        function startGame(event) {
+            event.preventDefault(); 
+
+            const name = document.getElementById('player-name').value;
+            const playerClass = document.getElementById('player-class').value;
+
+            // Menyimpan data pemain ke localStorage
+            localStorage.setItem('playerName', name);
+            localStorage.setItem('playerClass', playerClass);
+
+            console.log(`Pemain Berhasil Terdaftar: ${name} (Kelas ${playerClass})`);
+
+            // DIUBAH: Mengarah langsung ke play.html menu utama Anda
+            window.location.href = "play.html"; 
+        }
+    </script>
+</body>
+</html>

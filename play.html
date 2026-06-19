@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lentera Bali - Menu Utama</title>
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #111;
+            font-family: 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- GAME CONTAINER (RESPONSIVE FOR BOTH ORIENTATIONS) --- */
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('backgroundlentera.png');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- HEADER LOGO WITH ZOOM ANIMATION (UKURAN DIPERKECIL) --- */
+        .logo-container {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 22%; /* Diperkecil dari 35% */
+            max-width: 160px; /* Diperkecil dari 250px */
+            text-align: center;
+            z-index: 10;
+            animation: logoZoom 3s ease-in-out infinite;
+        }
+
+        .logo-game {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        @keyframes logoZoom {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.06); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        /* --- CHARACTERS --- */
+        .character {
+            position: absolute;
+            bottom: -2%;
+            width: 22%;
+            max-width: 180px;
+            height: auto;
+            z-index: 5;
+            transition: all 0.3s ease;
+        }
+
+        #putu { left: 8%; }
+        #niluh { right: 8%; }
+
+        /* --- CENTER BUTTONS --- */
+        .controls-container {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .btn-circle {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 3px solid #542c0e;
+            background: #b0703c;
+            box-shadow: 
+                inset 0 0 0 2px #e5a96b,
+                0 4px 0px #321602,
+                0 5px 10px rgba(0,0,0,0.4);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: transform 0.05s ease, box-shadow 0.05s ease;
+        }
+
+        .btn-circle:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 0 0 2px #e5a96b,
+                0 1px 0px #321602,
+                0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .inner-circle-white {
+            width: 82%;
+            height: 82%;
+            background: #fff;
+            border-radius: 50%;
+            border: 1px solid #542c0e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* IKON RE-DESIGN: Menjadi Kompas / Penanda Peta */
+        .icon-map-marker {
+            width: 50%;
+            height: 50%;
+            background: #e11d48;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            position: relative;
+            transform: rotate(15deg);
+        }
+        
+        .icon-map-marker::after {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
+            background: #fff;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .inner-circle-green {
+            width: 82%;
+            height: 82%;
+            background: linear-gradient(to bottom, #a3e635, #65a30d);
+            border-radius: 50%;
+            border: 1px solid #3f6204;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.4);
+        }
+
+        .icon-play-triangle {
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-left: 14px solid #dc2626;
+            border-bottom: 8px solid transparent;
+            margin-left: 4px;
+            filter: drop-shadow(0px 1px 0px #991b1b);
+        }
+
+        /* --- POJOK KANAN ATAS --- */
+        .top-right-group {
+            position: absolute;
+            top: 4%;
+            right: 4%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 15;
+        }
+
+        .badge-star {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            background: #facc15;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 0 0 1.5px #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #78350f;
+            font-weight: 900;
+            transform: rotate(45deg);
+            border-radius: 4px;
+        }
+
+        .badge-star span {
+            transform: rotate(-45deg);
+            text-shadow: 0.5px 0.5px 0px #fff;
+        }
+
+        .badge-star::before {
+            content: '+';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            border: 1px solid #fff;
+            color: white;
+            font-size: 6px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-45deg);
+        }
+
+        .btn-store {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: linear-gradient(to bottom, #c084fc, #7c3aed);
+            box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-store:active { transform: scale(0.9); }
+
+        #mute-toggle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: linear-gradient(to bottom, #f43f5e, #be123c);
+            box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: white;
+            transition: transform 0.1s ease;
+        }
+        #mute-toggle:active { transform: scale(0.9); }
+
+        /* --- INTEGRATED PROFILE BADGE (POJOK KIRI ATAS) --- */
+        .user-profile-badge {
+            position: absolute;
+            top: 4%;
+            left: 4%;
+            background: rgba(84, 44, 14, 0.85);
+            border: 2.5px solid #b0703c;
+            border-radius: 12px;
+            padding: 6px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            color: #fff;
+            z-index: 15;
+            min-width: 120px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 0 0 1px #e5a96b;
+        }
+
+        .profile-name {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #facc15;
+            text-shadow: 1px 1px 0px #321602;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 110px;
+        }
+
+        .profile-class {
+            font-size: 0.7rem;
+            color: #e5a96b;
+            font-weight: bold;
+        }
+
+
+        /* ==========================================================================
+           ADAPTIVE DESIGN FOR PORTRAIT MODE (LAYAR HP BERDIRI)
+           ========================================================================== */
+        @media screen and (orientation: portrait) {
+            .logo-container {
+                width: 45%; /* Diperkecil dari 65% */
+                top: 8%;
+            }
+
+            .character {
+                width: 38%;
+                bottom: 25%;
+            }
+
+            #putu { left: 4%; }
+            #niluh { right: 4%; }
+
+            .controls-container {
+                bottom: 6%;
+                gap: 25px;
+            }
+
+            .btn-circle {
+                width: 60px;
+                height: 60px;
+            }
+
+            .top-right-group {
+                top: 4%;
+                right: 6%;
+            }
+
+            .user-profile-badge {
+                top: 4%;
+                left: 6%;
+                padding: 5px 10px;
+                min-width: 100px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="backsound.mp3" loop></audio>
+
+    <div id="game-container">
+        
+        <div class="user-profile-badge">
+            <div class="profile-name" id="display-name">Pemain</div>
+            <div class="profile-class" id="display-class">Kelas -</div>
+        </div>
+
+        <div class="logo-container">
+            <img src="logogame.png" alt="Lentera Bali" class="logo-game">
+        </div>
+
+        <img src="karakterputu.png" alt="Putu" id="putu" class="character">
+
+        <div class="controls-container">
+            <div class="btn-circle" id="btn-peta" onclick="clickAction('peta')">
+                <div class="inner-circle-white">
+                    <div class="icon-map-marker"></div>
+                </div>
+            </div>
+            
+            <div class="btn-circle" id="btn-play" onclick="clickAction('play')">
+                <div class="inner-circle-green">
+                    <div class="icon-play-triangle"></div>
+                </div>
+            </div>
+        </div>
+
+        <img src="karakterniluh.png" alt="Ni Luh" id="niluh" class="character">
+
+        <div class="top-right-group">
+            <div class="badge-star">
+                <span id="player-score">0</span>
+            </div>
+            <div class="btn-store" onclick="clickAction('store')">
+                👥
+            </div>
+            <div id="mute-toggle" onclick="toggleMusic()">
+                🔊
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ==========================================================================
+        // SISTEM INTEGRASI DATA PENGGUNA (LOCALSTORAGE)
+        // ==========================================================================
+        const savedName = localStorage.getItem('playerName');
+        const savedClass = localStorage.getItem('playerClass');
+
+        // Proteksi Halaman: Jika data nama belum diisi di index.html, tendang balik
+        if (!savedName) {
+            window.location.href = "index.html";
+        } else {
+            document.getElementById('display-name').innerText = savedName.toUpperCase();
+            document.getElementById('display-class').innerText = `KELAS ${savedClass}`;
+        }
+
+        // ==========================================================================
+        // LOGIKA AUDIO & CORE INTERFACE
+        // ==========================================================================
+        const bgMusic = document.getElementById('bg-music');
+        const muteToggle = document.getElementById('mute-toggle');
+        let musicStarted = false;
+
+        // Baca status preferensi mute dari index.html jika ada
+        if (localStorage.getItem('musicMuted') === 'true') {
+            muteToggle.innerText = "🔇";
+            muteToggle.style.background = "linear-gradient(to bottom, #6b7280, #374151)";
+        }
+
+        function activateFullscreen() {
+            const docElm = document.documentElement;
+            if (!document.fullscreenElement) {
+                if (docElm.requestFullscreen) {
+                    docElm.requestFullscreen().catch(err => console.log(err));
+                } else if (docElm.webkitRequestFullscreen) { 
+                    docElm.webkitRequestFullscreen().catch(err => console.log(err));
+                }
+            }
+        }
+
+        function handleUserInteraction() {
+            if (!musicStarted) {
+                if (localStorage.getItem('musicMuted') !== 'true') {
+                    bgMusic.play().then(() => {
+                        musicStarted = true;
+                    }).catch(() => {});
+                } else {
+                    musicStarted = true;
+                }
+            }
+            activateFullscreen();
+        }
+
+        document.addEventListener('click', handleUserInteraction);
+        document.addEventListener('touchstart', handleUserInteraction);
+
+        function toggleMusic() {
+            musicStarted = true; 
+            if (bgMusic.paused) {
+                bgMusic.play();
+                localStorage.setItem('musicMuted', 'false');
+                muteToggle.innerText = "🔊";
+                muteToggle.style.background = "linear-gradient(to bottom, #f43f5e, #be123c)";
+            } else {
+                bgMusic.pause();
+                localStorage.setItem('musicMuted', 'true');
+                muteToggle.innerText = "🔇";
+                muteToggle.style.background = "linear-gradient(to bottom, #6b7280, #374151)";
+            }
+        }
+
+        // ==========================================================================
+        // LOGIKA NAVIGASI MENU GAME (UPDATE)
+        // ==========================================================================
+        function clickAction(type) {
+            activateFullscreen();
+
+            if (type === 'play') {
+                console.log("Membuka Permainan Utama...");
+                window.location.href = "main.html"; // Diarahkan ke main.html
+            } else if (type === 'peta') {
+                console.log("Membuka Peta Petualangan...");
+                window.location.href = "peta.html"; // Diarahkan ke peta.html
+            } else if (type === 'store') {
+                console.log("Membuka Menu Komunitas/Karakter...");
+            }
+        }
+    </script>
+</body>
+</html>

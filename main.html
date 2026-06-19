@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lentera Bali - Permainan</title>
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #111;
+            font-family: 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- GAME CONTAINER --- */
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('backgroundlentera.png');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- TOP HUD BAR --- */
+        .top-hud {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .hud-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .level-indicator {
+            background: rgba(84, 44, 14, 0.9);
+            border: 2px solid #b0703c;
+            border-radius: 10px;
+            padding: 4px 12px;
+            color: #facc15;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 0.9rem;
+            align-items: center;
+        }
+
+        .hearts { color: #f43f5e; font-size: 1.1rem; }
+        .timer { color: #facc15; font-weight: bold; }
+
+        .btn-exit {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: linear-gradient(to bottom, #b0703c, #542c0e);
+            box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* --- QUIZ INTERACTIVE AREA --- */
+        .quiz-container {
+            width: 90%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid #542c0e;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            padding: 20px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .quiz-visual-box {
+            width: 100%;
+            height: 160px;
+            background: #e5a96b;
+            border: 3px solid #b0703c;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .quiz-image {
+            height: 90%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .question-text {
+            color: #321602;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: bold;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+
+        /* Pilihan Jawaban */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn-option {
+            background: #fff;
+            border: 3px solid #b0703c;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #542c0e;
+            cursor: pointer;
+            box-shadow: 0 4px 0px #b0703c;
+            transition: all 0.1s ease;
+            text-align: center;
+        }
+
+        .btn-option:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0px #b0703c;
+        }
+
+        .btn-option.correct {
+            border-color: #15803d;
+            color: #fff;
+            background: linear-gradient(to bottom, #4ade80, #15803d);
+            box-shadow: 0 4px 0px #166534;
+        }
+
+        .btn-option.wrong {
+            border-color: #b91c1c;
+            color: #fff;
+            background: linear-gradient(to bottom, #f87171, #b91c1c);
+            box-shadow: 0 4px 0px #991b1b;
+        }
+
+        /* --- POPUP REWARD & AR SCREENS --- */
+        .popup-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 30;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-box {
+            background: rgba(84, 44, 14, 0.95);
+            border: 4px solid #facc15;
+            border-radius: 20px;
+            padding: 30px;
+            width: 85%;
+            max-width: 400px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(250,204,21,0.5);
+        }
+
+        .popup-box h2 {
+            color: #facc15;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .popup-box p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .btn-popup {
+            width: 100%;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .btn-ar {
+            background: linear-gradient(to bottom, #a3e635, #65a30d);
+            border-bottom: 4px solid #3f6204;
+        }
+
+        .btn-continue {
+            background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+            border-bottom: 4px solid #1e40af;
+        }
+
+        /* --- RESPONSIVE FOR PORTRAIT MODE --- */
+        @media screen and (orientation: portrait) {
+            .quiz-container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .quiz-visual-box {
+                height: 130px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .question-text {
+                font-size: 0.95rem;
+            }
+
+            .btn-option {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="backsound.mp3" loop></audio>
+
+    <div id="game-container">
+        
+        <div class="top-hud">
+            <div class="hud-left">
+                <div class="level-indicator" id="level-title">LEVEL 1: PARAHYANGAN</div>
+                <div class="status-bar">
+                    <div class="hearts" id="heart-container">❤️❤️❤️</div>
+                    <div class="timer">⏱️ <span id="time-left">20</span>s</div>
+                </div>
+            </div>
+            <div class="btn-exit" onclick="exitToMap()">✕</div>
+        </div>
+
+        <div class="quiz-container">
+            <div class="quiz-visual-box">
+                <img src="visual_placeholder.png" id="question-img" alt="Visual Budaya" class="quiz-image">
+            </div>
+
+            <div class="question-text" id="question-label">
+                Loading pertanyaan...
+            </div>
+
+            <div class="options-grid" id="options-container">
+                </div>
+        </div>
+
+        <div class="popup-overlay" id="reward-popup">
+            <div class="popup-box">
+                <h2 id="popup-title">LEVEL SELESAI!</h2>
+                <p id="popup-msg">Selamat! Lentera Harmoni Bali berhasil dinyalakan.</p>
+                
+                <button class="btn-popup btn-ar" id="btn-ar-trigger" onclick="triggerARFeature()">✨ SCAN MARKER AR 3D</button>
+                <button class="btn-popup btn-continue" onclick="exitToMap()">KEMBALI KE PETA</button>
+            </div>
+        </div>
+
+        <div></div>
+
+    </div>
+
+    <script>
+        // --- DATA PILAR & LEVEL (SESUAI DOKUMEN GDD) ---
+        const levelNum = parseInt(localStorage.getItem('activePlayingLevel')) || 1;
+        const categoryTHK = localStorage.getItem('activeCategoryTHK') || 'Parahyangan';
+
+        // Bank Data Soal Validasi Berdasarkan Klasifikasi Tri Hita Karana
+        const quizData = {
+            // Parahyangan: Materi sarana upacara, nama pura, istilah spiritual
+            1: { question: "Napi wastan sarana upacara ring Bali sane marupa reringgitan janur tur madaging ketan, tebu, miwah buah?", options: ["Canang Sari", "Banten Pulgembal", "Panyeneng", "Banten Sayut"], correct: 0, img: "sarana_banten.png" },
+            2: { question: "Pura Agung Besakih sajeroning pahan spiritual ring Bali magenah ring cokor gunung napi?", options: ["Gunung Batur", "Gunung Agung", "Gunung Batukaru", "Gunung Abang"], correct: 1, img: "pura_besakih.png" },
+            
+            // Pawongan: Kosakata percakapan, etika berbicara (Alus & Andap), interaksi sosial
+            3: { question: "Yening iraga maosang raga ring sang sane patut kaucapang, kruna titang utawi titiang rumasuk kruna...", options: ["Alus Singgih", "Alus Sor", "Alus Mider", "Kruna Andap"], correct: 1, img: "etika_bicara.png" },
+            4: { question: "Napi kruna alusne kruna 'Madaem/Tidur' sajeroning tata titi etika mabaos sareng guru utawi anak tua?", options: ["Sirep", "Matinggah", "Sare", "Marem"], correct: 2, img: "percakapan_alus.png" },
+            
+            // Palemahan: Pelestarian alam, sistem Subak, kosakata lingkungan
+            5: { question: "Sistem pengairan tradisional ring Bali sane ngutamayang kaseimbangan palemahan lan gotong royong kawastanin...", options: ["Subak", "Banjar", "Sekeha", "Undagi"], correct: 0, img: "sistem_subak.png" },
+            6: { question: "Napi kruna andap utawi kruna lingkungan saking kruna 'Tukad' sajeroning materi kosakata palemahan?", options: ["Pancoran", "Pasih", "Tukad", "Danu"], correct: 2, img: "lingkungan_alam.png" }
+        };
+
+        let currentQuestion = quizData[levelNum] || quizData[1];
+        let lives = 3;
+        let timerInterval;
+        let timeLeft = 20;
+
+        function initQuiz() {
+            document.getElementById('level-title').innerText = `LEVEL ${levelNum}: ${categoryTHK.toUpperCase()}`;
+            document.getElementById('question-label').innerText = currentQuestion.question;
+            document.getElementById('question-img').src = currentQuestion.img;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-option';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 20;
+            document.getElementById('time-left').innerText = timeLeft;
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time-left').innerText = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    reduceLife();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selectedIdx, selectedButton) {
+            clearInterval(timerInterval);
+            const options = document.getElementsByClassName('btn-option');
+            for (let btn of options) { btn.disabled = true; }
+
+            if (selectedIdx === currentQuestion.correct) {
+                selectedButton.classList.add('correct');
+                setTimeout(showRewardPopup, 1200);
+            } else {
+                selectedButton.classList.add('wrong');
+                options[currentQuestion.correct].classList.add('correct');
+                setTimeout(reduceLife, 1200);
+            }
+        }
+
+        function reduceLife() {
+            lives--;
+            let heartStr = "";
+            for (let i = 0; i < lives; i++) heartStr += "❤️";
+            document.getElementById('heart-container').innerText = heartStr;
+
+            if (lives <= 0) {
+                alert("Nyawa habis! Ayo coba pelajari lagi kruna-kruna Tri Hita Karana.");
+                exitToMap();
+            } else {
+                startTimer();
+                const options = document.getElementsByClassName('btn-option');
+                for (let btn of options) { btn.disabled = false; btn.classList.remove('wrong', 'correct'); }
+            }
+        }
+
+        // --- MANAJEMEN PROGRESS & WINNING CONDITION ---
+        function showRewardPopup() {
+            let currentUnlocked = parseInt(localStorage.getItem('currentProgressLevel')) || 1;
+            
+            // Perbarui level progress jika sukses menyelesaikan level saat ini
+            if (levelNum === currentUnlocked && currentUnlocked < 6) {
+                localStorage.setItem('currentProgressLevel', currentUnlocked + 1);
+            }
+
+            const popupTitle = document.getElementById('popup-title');
+            const popupMsg = document.getElementById('popup-msg');
+            const arBtn = document.getElementById('btn-ar-trigger');
+
+            // Cek Winning Condition: Jika sukses menyelesaikan Level terakhir (Level 6)
+            if (levelNum === 6) {
+                popupTitle.innerText = "🏆 PERMAINAN SELESAI!";
+                popupMsg.innerHTML = "Selamat! Anda berhasil menyelesaikan seluruh pilar <b>Tri Hita Karana</b> (Parahyangan, Pawongan, Palemahan).<br><br>Gunakan tombol di bawah untuk membuka Fitur AR Akhir Spasial sebagai penghargaan Anda!";
+                arBtn.innerText = "⭐ BUKA GRAND FITUR AR AKHIR";
+                localStorage.setItem('gameComplete', 'true'); // Flag tanda tamat
+            } else {
+                popupTitle.innerText = "LENTERA MENYALA!";
+                popupMsg.innerText = `Kamu berhasil menyelesaikan Misi Level ${levelNum} (${categoryTHK}).`;
+                arBtn.innerText = "✨ SCAN MARKER AR 3D";
+            }
+
+            document.getElementById('reward-popup').style.display = 'flex';
+        }
+
+        function triggerARFeature() {
+            if (levelNum === 6) {
+                alert("[AR Grand Mode Aktif]\nSelamat! Kamera AR memproyeksikan visualisasi spasial 3D interaktif penuh Pulau Bali sebagai hadiah utama!");
+            } else {
+                alert(`[AR Mode Aktif]\nKamera memindai marker objek: ${currentQuestion.img}\nModel 3D dan audio narasi berhasil dimuat.`);
+            }
+        }
+
+        function exitToMap() {
+            clearInterval(timerInterval);
+            window.location.href = "peta.html";
+        }
+
+        // --- KONTROL SOUNDPLAYBACK AUTOMATIS ---
+        const bgMusic = document.getElementById('bg-music');
+        if (localStorage.getItem('musicMuted') === 'true') {
+            bgMusic.pause();
+        } else {
+            document.addEventListener('click', () => { bgMusic.play().catch(()=>{}); }, { once: true });
+        }
+
+        initQuiz();
+    </script>
+</body>
+</html>
