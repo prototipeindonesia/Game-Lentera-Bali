@@ -39,7 +39,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 12px;
         }
 
         /* --- TOP HUD BAR --- */
@@ -49,42 +49,45 @@
             justify-content: space-between;
             align-items: center;
             z-index: 20;
+            height: 45px;
         }
 
         .hud-left {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            gap: 10px;
+            align-items: center;
         }
 
         .level-indicator {
-            background: rgba(84, 44, 14, 0.9);
+            background: linear-gradient(to bottom, #7c4219, #542c0e);
             border: 2px solid #b0703c;
-            border-radius: 10px;
-            padding: 4px 12px;
+            border-radius: 8px;
+            padding: 4px 10px;
             color: #facc15;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: bold;
             box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
         }
 
         .status-bar {
             display: flex;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 6px 12px;
-            border-radius: 20px;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 10px;
+            border-radius: 15px;
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .hearts { color: #f43f5e; font-size: 1.1rem; }
+        .hearts { color: #f43f5e; }
         .timer { color: #facc15; font-weight: bold; }
+        .score-live { color: #60a5fa; font-weight: bold; }
 
         .btn-exit {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 2px solid #fff;
             background: linear-gradient(to bottom, #b0703c, #542c0e);
@@ -94,31 +97,56 @@
             align-items: center;
             cursor: pointer;
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: bold;
         }
 
         /* --- QUIZ INTERACTIVE AREA --- */
         .quiz-container {
-            width: 90%;
-            max-width: 700px;
-            background: rgba(255, 255, 255, 0.95);
-            border: 4px solid #542c0e;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            padding: 20px;
+            width: 100%;
+            max-width: 850px;
+            height: calc(100% - 65px);
+            background: rgba(255, 255, 255, 0.96);
+            border: 3px solid #542c0e;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            padding: 12px;
             z-index: 10;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
+        }
+
+        /* Responsive Layout Switcher */
+        .quiz-content-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .quiz-left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .quiz-right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .quiz-visual-box {
             width: 100%;
-            height: 160px;
-            background: #e5a96b;
-            border: 3px solid #b0703c;
-            border-radius: 12px;
+            height: 250px;
+            background: #f7ddc2;
+            border: 2px solid #b0703c;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -127,147 +155,218 @@
         }
 
         .quiz-image {
-            height: 90%;
+            height: 100%;
             width: auto;
             object-fit: contain;
         }
 
         .question-text {
             color: #321602;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             text-align: center;
             font-weight: bold;
-            line-height: 1.4;
-            padding: 0 10px;
+            line-height: 1.3;
+            padding: 0 5px;
         }
 
         /* Pilihan Jawaban */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 8px;
         }
 
         .btn-option {
             background: #fff;
-            border: 3px solid #b0703c;
-            border-radius: 12px;
-            padding: 12px;
+            border: 2px solid #b0703c;
+            border-radius: 10px;
+            padding: 10px 8px;
             font-family: inherit;
-            font-size: 0.95rem;
+            font-size: 0.8rem;
             font-weight: bold;
             color: #542c0e;
             cursor: pointer;
-            box-shadow: 0 4px 0px #b0703c;
+            box-shadow: 0 3px 0px #b0703c;
             transition: all 0.1s ease;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
         }
 
         .btn-option:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0px #b0703c;
+            box-shadow: 0 1px 0px #b0703c;
         }
 
         .btn-option.correct {
             border-color: #15803d;
             color: #fff;
             background: linear-gradient(to bottom, #4ade80, #15803d);
-            box-shadow: 0 4px 0px #166534;
+            box-shadow: 0 3px 0px #166534;
         }
 
         .btn-option.wrong {
             border-color: #b91c1c;
             color: #fff;
             background: linear-gradient(to bottom, #f87171, #b91c1c);
-            box-shadow: 0 4px 0px #991b1b;
+            box-shadow: 0 3px 0px #991b1b;
         }
 
-        /* --- POPUP REWARD & AR SCREENS --- */
+        /* --- POPUP & VR SCREENS --- */
         .popup-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 30;
             display: none;
             justify-content: center;
             align-items: center;
+            padding: 15px;
         }
 
         .popup-box {
-            background: rgba(84, 44, 14, 0.95);
-            border: 4px solid #facc15;
-            border-radius: 20px;
-            padding: 30px;
-            width: 85%;
-            max-width: 400px;
+            background: rgba(84, 44, 14, 0.98);
+            border: 3px solid #facc15;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 420px;
             text-align: center;
             color: #fff;
-            box-shadow: 0 0 20px rgba(250,204,21,0.5);
+            box-shadow: 0 0 25px rgba(250,204,21,0.4);
         }
 
         .popup-box h2 {
             color: #facc15;
-            font-size: 1.6rem;
-            margin-bottom: 15px;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 0px #000;
         }
 
         .popup-box p {
-            font-size: 0.95rem;
-            margin-bottom: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
             line-height: 1.4;
+        }
+
+        .score-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #facc15;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border: 1px dashed #facc15;
         }
 
         .btn-popup {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             font-family: inherit;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             color: #fff;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border: none;
         }
 
-        .btn-ar {
-            background: linear-gradient(to bottom, #a3e635, #65a30d);
-            border-bottom: 4px solid #3f6204;
-        }
-
         .btn-continue {
-            background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
-            border-bottom: 4px solid #1e40af;
+            background: linear-gradient(to bottom, #22c55e, #15803d);
+            border-bottom: 3px solid #166534;
         }
 
-        /* --- RESPONSIVE FOR PORTRAIT MODE --- */
-        @media screen and (orientation: portrait) {
-            .quiz-container {
-                width: 95%;
-                padding: 15px;
-            }
+        /* --- LANDSCAPE MODE OPTIMIZATION (ANTI CUT-OFF) --- */
+        @media screen and (orientation: landscape) {
+            #game-container { padding: 8px; }
+            .quiz-container { height: calc(100% - 50px); padding: 10px; }
+            .quiz-content-layout { flex-direction: row; }
+            .quiz-visual-box { height: calc(100% - 45px); }
+            .question-text { font-size: 0.85rem; }
+            .options-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .btn-option { min-height: 34px; padding: 6px; font-size: 0.75rem; }
+            .popup-box { max-width: 480px; padding: 15px; }
+            .popup-box h2 { font-size: 1.2rem; margin-bottom: 5px; }
+            .popup-box p { font-size: 0.8rem; margin-bottom: 10px; }
+        }
 
-            .quiz-visual-box {
-                height: 130px;
-            }
+        /* --- VIRTUAL REALITY (VR) MODE VIEWPORT --- */
+        #vr-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 40;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 20px;
+        }
 
-            .options-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
+        .vr-viewport-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-            .question-text {
-                font-size: 0.95rem;
-            }
+        .vr-panoramic-bg {
+            width: 300vw;
+            height: 100%;
+            background-image: url('vr_bali_panorama.jpg'); /* fallback/placeholder landscape */
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            animation: panVR 25s linear infinite alternate;
+        }
 
-            .btn-option {
-                padding: 10px;
-                font-size: 0.85rem;
-            }
+        @keyframes panVR {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-66.6%); }
+        }
+
+        .vr-hud {
+            position: relative;
+            z-index: 45;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 2px solid #facc15;
+            text-align: center;
+            max-width: 80%;
+            margin-top: 10px;
+        }
+
+        .vr-controls {
+            position: relative;
+            z-index: 45;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-vr-action {
+            background: #facc15;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(250,204,21,0.4);
         }
     </style>
 </head>
@@ -279,72 +378,125 @@
         
         <div class="top-hud">
             <div class="hud-left">
-                <div class="level-indicator" id="level-title">LEVEL 1: PARAHYANGAN</div>
+                <div class="level-indicator" id="level-title">LEVEL: LOADING...</div>
                 <div class="status-bar">
                     <div class="hearts" id="heart-container">❤️❤️❤️</div>
                     <div class="timer">⏱️ <span id="time-left">20</span>s</div>
+                    <div class="score-live">✨ Skor: <span id="current-score-view">0</span></div>
                 </div>
             </div>
             <div class="btn-exit" onclick="exitToMap()">✕</div>
         </div>
 
         <div class="quiz-container">
-            <div class="quiz-visual-box">
-                <img src="visual_placeholder.png" id="question-img" alt="Visual Budaya" class="quiz-image">
-            </div>
-
-            <div class="question-text" id="question-label">
-                Loading pertanyaan...
-            </div>
-
-            <div class="options-grid" id="options-container">
+            <div class="quiz-content-layout">
+                
+                <div class="quiz-left-panel">
+                    <div class="quiz-visual-box">
+                        <img src="visual_placeholder.png" id="question-img" alt="Visual Budaya" class="quiz-image">
+                    </div>
+                    <div class="question-text" id="question-label">
+                        Loading data soal...
+                    </div>
                 </div>
+
+                <div class="quiz-right-panel">
+                    <div class="options-grid" id="options-container">
+                        </div>
+                </div>
+
+            </div>
         </div>
 
         <div class="popup-overlay" id="reward-popup">
             <div class="popup-box">
                 <h2 id="popup-title">LEVEL SELESAI!</h2>
-                <p id="popup-msg">Selamat! Lentera Harmoni Bali berhasil dinyalakan.</p>
+                <p id="popup-msg">Hebat! Kamu berhasil menjawab seluruh soal kearifan lokal Bali dengan luar biasa.</p>
                 
-                <button class="btn-popup btn-ar" id="btn-ar-trigger" onclick="triggerARFeature()">✨ SCAN MARKER AR 3D</button>
-                <button class="btn-popup btn-continue" onclick="exitToMap()">KEMBALI KE PETA</button>
+                <div class="score-badge">TOTAL SKOR: <span id="final-score-val">0</span></div>
+
+                <button class="btn-popup btn-continue" onclick="launchVirtualReality()">👁️ MASUK VIRTUAL REALITY (VR)</button>
+            </div>
+        </div>
+
+        <div id="vr-overlay">
+            <div class="vr-viewport-wrapper">
+                <div class="vr-panoramic-bg" id="vr-bg-layer"></div>
+            </div>
+            
+            <div class="vr-hud">
+                <h3 style="color:#facc15; margin-bottom:5px;">🕶️ VIRTUAL REALITY MODE</h3>
+                <p id="vr-description" style="font-size:0.85rem; color:#ddd;">Menjelajahi visualisasi 360° kebudayaan Bali secara spasial.</p>
+            </div>
+
+            <div class="vr-controls">
+                <button class="btn-vr-action" onclick="closeVRAndExit()">Selesai & Simpan Nilai</button>
             </div>
         </div>
 
         <div></div>
-
     </div>
 
     <script>
-        // --- DATA PILAR & LEVEL (SESUAI DOKUMEN GDD) ---
-        const levelNum = parseInt(localStorage.getItem('activePlayingLevel')) || 1;
+        // --- AMBIL PARAMETER KATEGORI DARI LOCALSTORAGE ---
+        // Default kategori ke 'Parahyangan' jika tidak tersetting
         const categoryTHK = localStorage.getItem('activeCategoryTHK') || 'Parahyangan';
 
-        // Bank Data Soal Validasi Berdasarkan Klasifikasi Tri Hita Karana
-        const quizData = {
-            // Parahyangan: Materi sarana upacara, nama pura, istilah spiritual
-            1: { question: "Napi wastan sarana upacara ring Bali sane marupa reringgitan janur tur madaging ketan, tebu, miwah buah?", options: ["Canang Sari", "Banten Pulgembal", "Panyeneng", "Banten Sayut"], correct: 0, img: "sarana_banten.png" },
-            2: { question: "Pura Agung Besakih sajeroning pahan spiritual ring Bali magenah ring cokor gunung napi?", options: ["Gunung Batur", "Gunung Agung", "Gunung Batukaru", "Gunung Abang"], correct: 1, img: "pura_besakih.png" },
-            
-            // Pawongan: Kosakata percakapan, etika berbicara (Alus & Andap), interaksi sosial
-            3: { question: "Yening iraga maosang raga ring sang sane patut kaucapang, kruna titang utawi titiang rumasuk kruna...", options: ["Alus Singgih", "Alus Sor", "Alus Mider", "Kruna Andap"], correct: 1, img: "etika_bicara.png" },
-            4: { question: "Napi kruna alusne kruna 'Madaem/Tidur' sajeroning tata titi etika mabaos sareng guru utawi anak tua?", options: ["Sirep", "Matinggah", "Sare", "Marem"], correct: 2, img: "percakapan_alus.png" },
-            
-            // Palemahan: Pelestarian alam, sistem Subak, kosakata lingkungan
-            5: { question: "Sistem pengairan tradisional ring Bali sane ngutamayang kaseimbangan palemahan lan gotong royong kawastanin...", options: ["Subak", "Banjar", "Sekeha", "Undagi"], correct: 0, img: "sistem_subak.png" },
-            6: { question: "Napi kruna andap utawi kruna lingkungan saking kruna 'Tukad' sajeroning materi kosakata palemahan?", options: ["Pancoran", "Pasih", "Tukad", "Danu"], correct: 2, img: "lingkungan_alam.png" }
+        // --- VALIDASI BANK DATA SOAL DETAIL SESUAI INPUT USER ---
+        const allQuizDatabase = {
+            "Parahyangan": [
+                { question: "1. Wewidangan utawi genah suci anggen umat Hindu maturan kawastanin...", options: ["Pura", "Bale banjar", "Sekolah", "Pasar"], correct: 0, img: "pura_placeholder.png" },
+                { question: "2. Tuhan ring agama Hindu kawastanin...", options: ["Sang Hyang Widhi Wasa", "Ratu Gede", "Jero Gede", "Mpu"], correct: 0, img: "tuhan_hindu.png" },
+                { question: "3. Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...", options: ["Sesajen miwah banten", "Pipis miwah perhiasan", "Batik miwah anduk", "Sepatu miwah tas"], correct: 0, img: "banten.png" },
+                { question: "4. Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...", options: ["Ida sane ngasilang keneh", "Ida sane ngaturang banten", "Ida sane nyiptayang jagat miwah manusa", "Ida sane mekarya pura"], correct: 2, img: "ciptaan.png" },
+                { question: "5. Rerahinan Saraswati, umat Hindu ngaturang banten ring...", options: ["Lontar miwah buku", "Beras miwah taluh", "Ayam miwah bebek", "Candi miwah arca"], correct: 0, img: "saraswati.png" },
+                { question: "6. Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...", options: ["Melasti", "Mepandes", "Mabyakala", "Matur piuning"], correct: 0, img: "melasti.png" },
+                { question: "7. Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...", options: ["Tamas", "Canang", "Tumpeng", "Lamak"], correct: 1, img: "canang.png" },
+                { question: "8. Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", options: ["Maturan", "Melukat", "Ngejot", "Melasti"], correct: 2, img: "ngejot.png" },
+                { question: "9. Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...", options: ["Padmasana", "Bale kulkul", "Wantilan", "Lumbung"], correct: 0, img: "padmasana.png" },
+                { question: "10. Rerahinan Galungan lan Kuningan, umat Hindu mekarya sarana upacara marupa tiing sané lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", options: ["Penjor", "Tamiang", "Sate", "Lawar"], correct: 0, img: "penjor.png" },
+                // Soal Pencocokan Gambar diintegrasikan secara detail & interaktif
+                { question: "[Pencocokan Gambar] Berdasarkan visual pura agung terbesar di Bali pada gambar, objek tersebut merupakan...", options: ["Pura Tanah Lot", "Pura Besakih", "Canang", "Penjor"], correct: 1, img: "pura_besakih.png" },
+                { question: "[Pencocokan Gambar] Gambar tersebut menunjukkan sarana persembahan harian umat Hindu yang disebut...", options: ["Tamas", "Lamak", "Canang", "Penjor"], correct: 2, img: "canang_visual.png" },
+                { question: "[Pencocokan Gambar] Tiang bambu melengkung penuh hiasan bumi pada gambar dinamakan...", options: ["Penjor", "Tamiang", "Lamak", "Bale Kulkul"], correct: 0, img: "penjor_visual.png" },
+                { question: "[Pencocokan Gambar] Pura luhur indah yang berdiri kokoh di atas bongkahan batu karang pantai sesuai gambar dinamakan...", options: ["Pura Besakih", "Uluwatu", "Pura Tanah Lot", "Wantilan"], correct: 2, img: "tanah_lot.png" },
+                { question: "[Pencocokan Gambar] Aktivitas sakral menyatukan telapak tangan untuk memuja Sang Hyang Widhi pada gambar disebut...", options: ["Mebakti", "Melasti", "Mepandes", "Ngejot"], correct: 0, img: "mebakti.png" }
+            ],
+            "Pawongan": [
+                { question: "1. Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", options: ["Sugih", "Uyut", "Lacur", "Adung"], correct: 3, img: "adung.png" },
+                { question: "2. Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", options: ["Melah", "Jele", "Mayus", "Lengit"], correct: 0, img: "solah.png" },
+                { question: "3. Rerama sesuai maang pitutur. Pitutur rerama patut....", options: ["Resepang", "Kelidin", "Saruin", "Kalahin"], correct: 0, img: "pitutur.png" },
+                { question: "4. Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", options: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], correct: 1, img: "dokter.png" },
+                { question: "5. Ngomong sareng guru patut nganggen basa sane....", options: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], correct: 1, img: "guru.png" },
+                { question: "6. Ring waktu mebersih kelas, iraga patut....", options: ["Gotong royong", "Melaib", "Nyingakin kemawon", "Macepuk"], correct: 0, img: "kebersihan.png" },
+                { question: "7. Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...", options: ["Guru", "Satpam", "Pengacara", "Polisi"], correct: 0, img: "ngajahin.png" },
+                { question: "8. Tusing dadi lengit tulungin rerama magarapan. Lengit len raosne....", options: ["Jemet", "Seleg", "Mayus", "Anteng"], correct: 2, img: "mayus.png" },
+                { question: "9. Yening ada timpal ane ulung patutne....", options: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], correct: 3, img: "ulung.png" },
+                { question: "10. Tresna asih metimpal. Tresna asih solah ane....", options: ["Melah", "Corah", "Jele", "Gedeg"], correct: 0, img: "tresna.png" }
+            ]
         };
 
-        let currentQuestion = quizData[levelNum] || quizData[1];
+        // Mengambil array soal berdasarkan kategori aktif saat ini
+        let activeQuestions = allQuizDatabase[categoryTHK] || allQuizDatabase["Parahyangan"];
+        
+        let questionIndex = 0;
+        let score = 0;
         let lives = 3;
         let timerInterval;
         let timeLeft = 20;
 
         function initQuiz() {
-            document.getElementById('level-title').innerText = `LEVEL ${levelNum}: ${categoryTHK.toUpperCase()}`;
+            // Setup Informasi HUD Utama
+            document.getElementById('level-title').innerText = `KATEGORI: ${categoryTHK.toUpperCase()}`;
+            document.getElementById('current-score-view').innerText = score;
+
+            let currentQuestion = activeQuestions[questionIndex];
+
+            // Render Text Pertanyaan & Media Visual Gambar
             document.getElementById('question-label').innerText = currentQuestion.question;
             document.getElementById('question-img').src = currentQuestion.img;
 
+            // Render Struktur Tombol Opsi Jawaban Dinamis
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
 
@@ -380,13 +532,17 @@
             const options = document.getElementsByClassName('btn-option');
             for (let btn of options) { btn.disabled = true; }
 
+            let currentQuestion = activeQuestions[questionIndex];
+
             if (selectedIdx === currentQuestion.correct) {
                 selectedButton.classList.add('correct');
-                setTimeout(showRewardPopup, 1200);
+                score += 10; // Menambahkan bobot skor per soal
+                document.getElementById('current-score-view').innerText = score;
+                setTimeout(advanceQuiz, 1000);
             } else {
                 selectedButton.classList.add('wrong');
                 options[currentQuestion.correct].classList.add('correct');
-                setTimeout(reduceLife, 1200);
+                setTimeout(reduceLife, 1000);
             }
         }
 
@@ -394,60 +550,81 @@
             lives--;
             let heartStr = "";
             for (let i = 0; i < lives; i++) heartStr += "❤️";
-            document.getElementById('heart-container').innerText = heartStr;
+            document.getElementById('heart-container').innerText = heartStr || "❌";
 
             if (lives <= 0) {
-                alert("Nyawa habis! Ayo coba pelajari lagi kruna-kruna Tri Hita Karana.");
+                alert("Nyawa habis! Mari coba belajar lagi materi Tri Hita Karana.");
                 exitToMap();
             } else {
-                startTimer();
-                const options = document.getElementsByClassName('btn-option');
-                for (let btn of options) { btn.disabled = false; btn.classList.remove('wrong', 'correct'); }
+                advanceQuiz();
             }
         }
 
-        // --- MANAJEMEN PROGRESS & WINNING CONDITION ---
-        function showRewardPopup() {
-            let currentUnlocked = parseInt(localStorage.getItem('currentProgressLevel')) || 1;
-            
-            // Perbarui level progress jika sukses menyelesaikan level saat ini
-            if (levelNum === currentUnlocked && currentUnlocked < 6) {
-                localStorage.setItem('currentProgressLevel', currentUnlocked + 1);
-            }
-
-            const popupTitle = document.getElementById('popup-title');
-            const popupMsg = document.getElementById('popup-msg');
-            const arBtn = document.getElementById('btn-ar-trigger');
-
-            // Cek Winning Condition: Jika sukses menyelesaikan Level terakhir (Level 6)
-            if (levelNum === 6) {
-                popupTitle.innerText = "🏆 PERMAINAN SELESAI!";
-                popupMsg.innerHTML = "Selamat! Anda berhasil menyelesaikan seluruh pilar <b>Tri Hita Karana</b> (Parahyangan, Pawongan, Palemahan).<br><br>Gunakan tombol di bawah untuk membuka Fitur AR Akhir Spasial sebagai penghargaan Anda!";
-                arBtn.innerText = "⭐ BUKA GRAND FITUR AR AKHIR";
-                localStorage.setItem('gameComplete', 'true'); // Flag tanda tamat
+        function advanceQuiz() {
+            questionIndex++;
+            if (questionIndex < activeQuestions.length) {
+                initQuiz();
             } else {
-                popupTitle.innerText = "LENTERA MENYALA!";
-                popupMsg.innerText = `Kamu berhasil menyelesaikan Misi Level ${levelNum} (${categoryTHK}).`;
-                arBtn.innerText = "✨ SCAN MARKER AR 3D";
+                showRewardPopup();
             }
+        }
 
+        // --- MANAGEMENT VALUE PROGRESS & POPUP ---
+        function showRewardPopup() {
+            document.getElementById('final-score-val').innerText = score;
             document.getElementById('reward-popup').style.display = 'flex';
         }
 
-        function triggerARFeature() {
-            if (levelNum === 6) {
-                alert("[AR Grand Mode Aktif]\nSelamat! Kamera AR memproyeksikan visualisasi spasial 3D interaktif penuh Pulau Bali sebagai hadiah utama!");
+        // --- LAUNCH SIMULASI VIRTUAL REALITY (VR) ---
+        function launchVirtualReality() {
+            // Sembunyikan popup, tampilkan layer visualisasi spasial panorama VR 360°
+            document.getElementById('reward-popup').style.display = 'none';
+            
+            const vrOverlay = document.getElementById('vr-overlay');
+            const vrDesc = document.getElementById('vr-description');
+            const vrBg = document.getElementById('vr-bg-layer');
+            
+            vrOverlay.style.display = 'flex';
+
+            // Kustomisasi background & narasi VR berdasarkan Kategori Level yang diselesaikan
+            if (categoryTHK === "Parahyangan") {
+                vrDesc.innerText = "Mengeksplorasi Lingkungan Suci Pura Besakih dan Altar Padmasana Agung dalam proyeksi 3D.";
+                vrBg.style.backgroundImage = "url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80')"; // Contoh asset panorama pura
             } else {
-                alert(`[AR Mode Aktif]\nKamera memindai marker objek: ${currentQuestion.img}\nModel 3D dan audio narasi berhasil dimuat.`);
+                vrDesc.innerText = "Menyaksikan interaksi sosial, tradisi adat Ngayah, dan keharmonisan hidup bermasyarakat di Banjar Bali.";
+                vrBg.style.backgroundImage = "url('https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80')"; // Contoh asset panorama pawongan
             }
+        }
+
+        function closeVRAndExit() {
+            // 1. Ambil nama key penyimpanan dinamis berdasarkan kategori pilar THK
+            const storageKey = `lentera_score_${categoryTHK.toLowerCase()}`;
+            
+            // 2. Simpan nilai skor sub-level ke dalam localStorage
+            localStorage.setItem(storageKey, score);
+
+            // 3. Hitung akumulasi kalkulasi total nilai secara real-time
+            const parahyanganScore = parseInt(localStorage.getItem('lentera_score_parahyangan')) || 0;
+            const pawonganScore = parseInt(localStorage.getItem('lentera_score_pawongan')) || 0;
+            const totalScore = parahyanganScore + pawonganScore;
+            
+            // 4. Set nilai global total_score agar bisa diakses langsung dari halaman utama (play.html)
+            localStorage.setItem('total_score', totalScore);
+
+            // 5. Update level progress untuk peta petualangan permainan
+            let currentUnlocked = parseInt(localStorage.getItem('currentProgressLevel')) || 1;
+            localStorage.setItem('currentProgressLevel', currentUnlocked + 1);
+
+            // Kembali ke halaman utama permainan
+            window.location.href = "play.html";
         }
 
         function exitToMap() {
             clearInterval(timerInterval);
-            window.location.href = "peta.html";
+            window.location.href = "play.html";
         }
 
-        // --- KONTROL SOUNDPLAYBACK AUTOMATIS ---
+        // --- SISTEM KONTROL AUDIO OTOMATIS ---
         const bgMusic = document.getElementById('bg-music');
         if (localStorage.getItem('musicMuted') === 'true') {
             bgMusic.pause();
@@ -455,6 +632,7 @@
             document.addEventListener('click', () => { bgMusic.play().catch(()=>{}); }, { once: true });
         }
 
+        // Jalankan game pertama kali
         initQuiz();
     </script>
 </body>
