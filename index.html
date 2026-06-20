@@ -23,7 +23,6 @@
       font-family: 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif;
     }
 
-    /* ---------- Page Wrapper ---------- */
     .page {
       display: none;
       width: 100%;
@@ -36,7 +35,7 @@
       flex-direction: column;
     }
 
-    /* ---------- Global Mute Toggle (akan diposisikan di tiap halaman) ---------- */
+    /* ---------- Global Mute Toggle ---------- */
     .mute-btn {
       width: 36px;
       height: 36px;
@@ -57,9 +56,6 @@
     .mute-btn.muted {
       background: linear-gradient(to bottom, #6b7280, #374151);
     }
-
-    /* ---------- Utility ---------- */
-    .hidden { display: none !important; }
 
     /* ============================================================
        HALAMAN LOGIN (index)
@@ -177,7 +173,6 @@
       right: 4%;
     }
 
-    /* Portrait Login */
     @media screen and (orientation: portrait) {
       #page-login .logo-container { width: 55%; top: 6%; }
       #page-login .form-card { margin-top: 40px; padding: 20px 24px; }
@@ -338,10 +333,17 @@
     }
     #page-play .btn-store:active { transform: scale(0.9); }
 
-    #page-play .user-profile-badge {
+    /* Profile + Logout wrapper */
+    #page-play .user-profile-wrapper {
       position: absolute;
       top: 4%;
       left: 4%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 15;
+    }
+    #page-play .user-profile-badge {
       background: rgba(84,44,14,0.85);
       border: 2.5px solid #b0703c;
       border-radius: 12px;
@@ -350,9 +352,8 @@
       flex-direction: column;
       gap: 2px;
       color: #fff;
-      z-index: 15;
-      min-width: 120px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 0 0 1px #e5a96b;
+      min-width: 120px;
     }
     #page-play .profile-name {
       font-size: 0.85rem;
@@ -369,8 +370,23 @@
       color: #e5a96b;
       font-weight: bold;
     }
+    #page-play .btn-logout {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: linear-gradient(to bottom, #ef4444, #b91c1c);
+      box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1rem;
+      color: white;
+      transition: transform 0.1s ease;
+    }
+    #page-play .btn-logout:active { transform: scale(0.9); }
 
-    /* Landscape play */
     @media screen and (orientation: landscape) and (max-height: 480px) {
       #page-play .logo-container { width: 15%; top: 2%; }
       #page-play .character { width: 14%; bottom: -5%; }
@@ -378,8 +394,8 @@
       #page-play #niluh { right: 14%; }
       #page-play .controls-container { bottom: 4%; gap: 15px; }
       #page-play .btn-circle { width: 44px; height: 44px; border-width: 2px; }
-      #page-play .user-profile-badge, #page-play .top-right-group { top: 2%; }
-      #page-play .top-right-group { flex-direction: row; gap: 8px; }
+      #page-play .user-profile-wrapper { top: 2%; }
+      #page-play .top-right-group { top: 2%; flex-direction: row; gap: 8px; }
     }
     @media screen and (orientation: portrait) {
       #page-play .logo-container { width: 45%; top: 8%; }
@@ -389,7 +405,8 @@
       #page-play .controls-container { bottom: 6%; gap: 25px; }
       #page-play .btn-circle { width: 60px; height: 60px; }
       #page-play .top-right-group { top: 4%; right: 6%; }
-      #page-play .user-profile-badge { top: 4%; left: 6%; padding: 5px 10px; min-width: 100px; }
+      #page-play .user-profile-wrapper { top: 4%; left: 6%; }
+      #page-play .user-profile-badge { padding: 5px 10px; min-width: 100px; }
     }
 
     /* ============================================================
@@ -606,7 +623,6 @@
       object-fit: contain;
     }
 
-    /* Landscape peta */
     @media screen and (orientation: landscape) {
       #page-peta .map-grid-container { margin-top: 55px; gap: 12px; max-height: 60vh; }
       #page-peta .row-grid { gap: 35px; }
@@ -937,7 +953,6 @@
       box-shadow: 0 4px 10px rgba(250,204,21,0.4);
     }
 
-    /* Landscape main */
     @media screen and (orientation: landscape) {
       #page-main { padding: 8px; }
       #page-main .quiz-container { height: calc(100% - 50px); padding: 10px; }
@@ -1138,7 +1153,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Portrait Materi */
     @media screen and (orientation: portrait) {
       #page-materi .main-layout { flex-direction: column; }
       #page-materi .sidebar-tabs {
@@ -1226,10 +1240,15 @@
 
 <!-- ==================== HALAMAN PLAY ==================== -->
 <div id="page-play" class="page">
-  <div class="user-profile-badge">
-    <div class="profile-name" id="display-name">Pemain</div>
-    <div class="profile-class" id="display-class">Kelas -</div>
+  <div class="user-profile-wrapper">
+    <div class="user-profile-badge">
+      <div class="profile-name" id="display-name">Pemain</div>
+      <div class="profile-class" id="display-class">Kelas -</div>
+    </div>
+    <!-- Tombol Logout -->
+    <div class="btn-logout" onclick="logout()" title="Keluar / Ganti pengguna">🚪</div>
   </div>
+
   <div class="logo-container">
     <img src="logogame.png" alt="Lentera Bali" class="logo-game" />
   </div>
@@ -1335,7 +1354,6 @@
 
 <!-- ==================== HALAMAN MAIN (KUIS) ==================== -->
 <div id="page-main" class="page">
-  <!-- HUD -->
   <div class="top-hud">
     <div class="hud-left">
       <div class="level-indicator" id="level-title">LEVEL: LOADING...</div>
@@ -1348,7 +1366,6 @@
     <div class="btn-exit" onclick="exitToMap()">✕</div>
   </div>
 
-  <!-- Quiz Area -->
   <div class="quiz-container">
     <div class="quiz-content-layout">
       <div class="quiz-left-panel">
@@ -1552,10 +1569,11 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById('page-' + page);
     if (target) target.classList.add('active');
-    // Update audio mute button status di halaman baru
     updateMuteButtons();
-    // Trigger fullscreen
     activateFullscreen();
+    // Update profile jika diperlukan
+    if (page === 'play') updatePlayProfile();
+    if (page === 'peta') { updatePetaProfile(); setupLevelProgress(); }
   }
 
   // ================================================================
@@ -1618,12 +1636,10 @@
 
   document.addEventListener('click', handleUserInteraction);
   document.addEventListener('touchstart', handleUserInteraction);
-
-  // Inisialisasi mute buttons
   updateMuteButtons();
 
   // ================================================================
-  //  LOGIN (index)
+  //  LOGIN
   // ================================================================
   document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -1632,31 +1648,41 @@
     if (!name || !cls) return;
     localStorage.setItem('playerName', name);
     localStorage.setItem('playerClass', cls);
-    // Reset progress jika perlu?
     navigateTo('play');
     updatePlayProfile();
     updatePetaProfile();
   });
 
   // ================================================================
-  //  PLAY (menu utama)
+  //  PLAY
   // ================================================================
   function updatePlayProfile() {
     const name = localStorage.getItem('playerName') || 'Pemain';
     const cls = localStorage.getItem('playerClass') || '-';
     document.getElementById('display-name').innerText = name.toUpperCase();
     document.getElementById('display-class').innerText = 'KELAS ' + cls;
-    // Skor
     const totalScore = parseInt(localStorage.getItem('total_score')) || 0;
     document.getElementById('player-score').innerText = totalScore;
   }
 
+  // ----- LOGOUT (BARU) -----
+  function logout() {
+    if (confirm('Keluar dari game? Data pengguna akan dihapus.')) {
+      localStorage.removeItem('playerName');
+      localStorage.removeItem('playerClass');
+      // Opsional reset progress
+      // localStorage.removeItem('currentProgressLevel');
+      // localStorage.removeItem('total_score');
+      document.getElementById('player-name').value = '';
+      document.getElementById('player-class').value = '';
+      navigateTo('login');
+    }
+  }
+
   function clickAction(type) {
     if (type === 'play') {
-      // Mulai permainan: ambil level aktif dari local storage, default 1
       const level = parseInt(localStorage.getItem('activePlayingLevel')) || 1;
       const category = localStorage.getItem('activeCategoryTHK') || 'Parahyangan';
-      // Jika belum ada, set default
       if (!localStorage.getItem('activePlayingLevel')) {
         localStorage.setItem('activePlayingLevel', '1');
         localStorage.setItem('activeCategoryTHK', 'Parahyangan');
@@ -1842,7 +1868,6 @@
 
   function exitToMap() {
     clearInterval(timerInterval);
-    // Reset popup
     document.getElementById('reward-popup').style.display = 'none';
     document.getElementById('vr-overlay').style.display = 'none';
     navigateTo('peta');
@@ -1874,13 +1899,11 @@
     const storageKey = 'lentera_score_' + category.toLowerCase();
     localStorage.setItem(storageKey, score);
 
-    // Hitung total
     const parahyangan = parseInt(localStorage.getItem('lentera_score_parahyangan')) || 0;
     const pawongan = parseInt(localStorage.getItem('lentera_score_pawongan')) || 0;
     const total = parahyangan + pawongan;
     localStorage.setItem('total_score', total);
 
-    // Update progress level
     let unlocked = parseInt(localStorage.getItem('currentProgressLevel')) || 1;
     if (unlocked < 6) {
       unlocked++;
@@ -1888,7 +1911,6 @@
     }
     currentUnlocked = unlocked;
 
-    // Kembali ke peta
     navigateTo('peta');
     setupLevelProgress();
     updatePlayProfile();
@@ -1909,53 +1931,27 @@
   }
 
   // ================================================================
-  //  INISIALISASI SAAT LOAD
+  //  INISIALISASI
   // ================================================================
-  // Cek login
   const savedName = localStorage.getItem('playerName');
   if (savedName) {
-    // Jika sudah login, langsung ke play (tapi tetap tampilkan login? kita biarkan login aktif, tapi user bisa langsung navigasi)
-    // Agar user tidak perlu login ulang, kita bisa otomatis arahkan ke play setelah login tersimpan.
-    // Tapi lebih baik biarkan di login, karena user mungkin ingin ganti.
-    // Namun untuk kenyamanan, jika sudah login, kita tampilkan play.
-    // Tapi kita tetap di login, tapi kita isi form? tidak perlu.
-    // Kita akan tampilkan halaman play jika ada data.
-    // Kita panggil navigate setelah update profile.
-    // Namun karena halaman login adalah default, kita bisa langsung pindah ke play jika ada data.
-    // Tapi mungkin user ingin logout? Tidak ada fitur logout, jadi kita langsung arahkan.
-    // Saya akan arahkan ke play jika ada data.
     navigateTo('play');
     updatePlayProfile();
     updatePetaProfile();
   } else {
-    // Tampilkan login
     navigateTo('login');
   }
-
-  // Inisialisasi peta
   setupLevelProgress();
-  // Inisialisasi materi default
   switchMateri(1);
 
-  // ================================================================
-  //  PERBAIKAN BUG: pastikan saat kembali ke play, skor terbaru
-  // ================================================================
-  // Update play profile setiap kali halaman play ditampilkan (dipanggil di navigate)
-  // Override navigate untuk update
+  // Override navigate agar update profile saat kembali
   const originalNavigate = navigateTo;
   navigateTo = function(page) {
     originalNavigate(page);
-    if (page === 'play') {
-      updatePlayProfile();
-    } else if (page === 'peta') {
-      updatePetaProfile();
-      setupLevelProgress();
-    }
+    if (page === 'play') updatePlayProfile();
+    if (page === 'peta') { updatePetaProfile(); setupLevelProgress(); }
   };
-  // Panggil sekali
-  if (savedName) {
-    navigateTo('play');
-  }
+  if (savedName) navigateTo('play');
 
   console.log('Lentera Bali All-in-One siap!');
 </script>
