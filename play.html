@@ -42,14 +42,14 @@
             padding: 20px;
         }
 
-        /* --- HEADER LOGO WITH ZOOM ANIMATION (UKURAN DIPERKECIL) --- */
+        /* --- HEADER LOGO WITH ZOOM ANIMATION --- */
         .logo-container {
             position: absolute;
             top: 5%;
             left: 50%;
             transform: translateX(-50%);
-            width: 22%; /* Diperkecil dari 35% */
-            max-width: 160px; /* Diperkecil dari 250px */
+            width: 22%;
+            max-width: 160px;
             text-align: center;
             z-index: 10;
             animation: logoZoom 3s ease-in-out infinite;
@@ -71,15 +71,15 @@
         .character {
             position: absolute;
             bottom: -2%;
-            width: 22%;
-            max-width: 180px;
+            width: 20%;
+            max-width: 160px;
             height: auto;
             z-index: 5;
             transition: all 0.3s ease;
         }
 
-        #putu { left: 8%; }
-        #niluh { right: 8%; }
+        #putu { left: 10%; }
+        #niluh { right: 10%; }
 
         /* --- CENTER BUTTONS --- */
         .controls-container {
@@ -131,7 +131,7 @@
             overflow: hidden;
         }
 
-        /* IKON RE-DESIGN: Menjadi Kompas / Penanda Peta */
+        /* IKON COMPASS PETA */
         .icon-map-marker {
             width: 50%;
             height: 50%;
@@ -188,14 +188,14 @@
 
         .badge-star {
             position: relative;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             background: #facc15;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 0 0 1.5px #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #78350f;
             font-weight: 900;
             transform: rotate(45deg);
@@ -205,21 +205,18 @@
         .badge-star span {
             transform: rotate(-45deg);
             text-shadow: 0.5px 0.5px 0px #fff;
+            white-space: nowrap;
         }
 
         .badge-star::before {
-            content: '+';
+            content: '★';
             position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 10px;
-            height: 10px;
-            background: #22c55e;
-            border-radius: 50%;
-            border: 1px solid #fff;
-            color: white;
-            font-size: 6px;
-            font-weight: bold;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            color: #ea580c;
+            font-size: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -295,13 +292,44 @@
             font-weight: bold;
         }
 
+        /* ==========================================================================
+           OPTIMASI RESPONSIVE KHUSUS MODE LANDSCAPE (MENCEGAH TERPOTONG)
+           ========================================================================== */
+        @media screen and (orientation: landscape) and (max-height: 480px) {
+            .logo-container {
+                width: 15%;
+                top: 2%;
+            }
+            .character {
+                width: 14%;
+                bottom: -5%;
+            }
+            #putu { left: 14%; }
+            #niluh { right: 14%; }
+            .controls-container {
+                bottom: 4%;
+                gap: 15px;
+            }
+            .btn-circle {
+                width: 44px;
+                height: 44px;
+                border-width: 2px;
+            }
+            .user-profile-badge, .top-right-group {
+                top: 2%;
+            }
+            .top-right-group {
+                flex-direction: row;
+                gap: 8px;
+            }
+        }
 
         /* ==========================================================================
            ADAPTIVE DESIGN FOR PORTRAIT MODE (LAYAR HP BERDIRI)
            ========================================================================== */
         @media screen and (orientation: portrait) {
             .logo-container {
-                width: 45%; /* Diperkecil dari 65% */
+                width: 45%;
                 top: 8%;
             }
 
@@ -335,7 +363,6 @@
                 min-width: 100px;
             }
         }
-
     </style>
 </head>
 <body>
@@ -387,17 +414,23 @@
 
     <script>
         // ==========================================================================
-        // SISTEM INTEGRASI DATA PENGGUNA (LOCALSTORAGE)
+        // SISTEM INTEGRASI DATA PENGGUNA & HUBUNGAN SKOR (LOCALSTORAGE)
         // ==========================================================================
         const savedName = localStorage.getItem('playerName');
         const savedClass = localStorage.getItem('playerClass');
+        
+        // MENGHUBUNGKAN NILAI SOAL UTAMA KE HALAMAN UTAMA
+        const totalScore = localStorage.getItem('total_score') || 0;
 
-        // Proteksi Halaman: Jika data nama belum diisi di index.html, tendang balik
+        // Proteksi Halaman: Jika data nama belum diisi di index.html, kembalikan ke awal
         if (!savedName) {
             window.location.href = "index.html";
         } else {
             document.getElementById('display-name').innerText = savedName.toUpperCase();
             document.getElementById('display-class').innerText = `KELAS ${savedClass}`;
+            
+            // Masukkan nilai total permainan ke elemen badge bintang
+            document.getElementById('player-score').innerText = totalScore;
         }
 
         // ==========================================================================
@@ -407,7 +440,6 @@
         const muteToggle = document.getElementById('mute-toggle');
         let musicStarted = false;
 
-        // Baca status preferensi mute dari index.html jika ada
         if (localStorage.getItem('musicMuted') === 'true') {
             muteToggle.innerText = "🔇";
             muteToggle.style.background = "linear-gradient(to bottom, #6b7280, #374151)";
@@ -456,17 +488,17 @@
         }
 
         // ==========================================================================
-        // LOGIKA NAVIGASI MENU GAME (UPDATE)
+        // LOGIKA NAVIGASI MENU GAME
         // ==========================================================================
         function clickAction(type) {
             activateFullscreen();
 
             if (type === 'play') {
                 console.log("Membuka Permainan Utama...");
-                window.location.href = "main.html"; // Diarahkan ke main.html
+                window.location.href = "main.html"; // Mengarahkan ke peta petualangan pilar
             } else if (type === 'peta') {
                 console.log("Membuka Peta Petualangan...");
-                window.location.href = "peta.html"; // Diarahkan ke peta.html
+                window.location.href = "peta.html"; 
             } else if (type === 'store') {
                 console.log("Membuka Menu Komunitas/Karakter...");
             }
