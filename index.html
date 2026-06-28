@@ -307,7 +307,7 @@
     }
 
     /* ============================================================
-       HALAMAN PETA (LEVEL SELECTION)
+       HALAMAN PETA (LEVEL SELECTION - ZIG-ZAG PATH)
        ============================================================ */
     #page-peta {
       background-image: url('backgroundlentera.png');
@@ -354,60 +354,84 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10px;
+      padding: 20px;
       z-index: 10;
     }
     #page-peta .map-scroll-viewport::-webkit-scrollbar { width: 6px; }
     #page-peta .map-scroll-viewport::-webkit-scrollbar-thumb { background: rgba(84,44,14,0.5); border-radius: 10px; }
 
+    /* Layout Zig-zag Jalan */
     #page-peta .map-grid-container {
       width: 100%;
-      max-width: 780px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+      position: relative;
+      padding: 20px 0;
     }
+    
+    /* Garis Jalan Ilustrasi Belakang Lampu */
+    #page-peta .map-grid-container::before {
+      content: '';
+      position: absolute;
+      top: 50px;
+      bottom: 50px;
+      left: 50%;
+      width: 8px;
+      background: dashed rgba(250, 204, 21, 0.5);
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
     #page-peta .category-card {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
       position: relative;
+      z-index: 2;
+      width: 130px;
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    #page-peta .category-card:not(.locked):hover { transform: scale(1.04); }
+    #page-peta .category-card:not(.locked):hover { transform: scale(1.1); }
     
+    /* Pengaturan Posisi Jalan Zig-zag */
+    #page-peta .category-card:nth-child(1) { align-self: flex-start; margin-left: 10%; }
+    #page-peta .category-card:nth-child(2) { align-self: center; }
+    #page-peta .category-card:nth-child(3) { align-self: flex-end; margin-right: 10%; }
+
+    /* Mengubah Box Belakang Menjadi Gambar Lampunya Saja */
     #page-peta .lamp-frame {
-      width: 100%;
-      max-width: 110px;
-      aspect-ratio: 1/1;
-      border-radius: 20px;
-      border: 4px solid #542c0e;
-      background: #b0703c;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.5);
+      width: 90px;
+      height: 90px;
+      background: transparent;
+      border: none;
+      box-shadow: none;
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
-    #page-peta .category-card:not(.locked) .lamp-frame {
-      box-shadow: 0 0 15px #facc15, inset 0 0 10px rgba(0,0,0,0.3);
+    #page-peta .category-card:not(.locked) .lamp-img {
+      filter: drop-shadow(0 0 15px #facc15);
     }
     #page-peta .lamp-img {
-      width: 70%;
-      height: 70%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
     #page-peta .category-label {
-      background: #fff;
-      color: #321602;
-      border: 2px solid #542c0e;
+      background: rgba(58, 29, 4, 0.9);
+      color: #fff;
+      border: 2px solid #facc15;
       border-radius: 8px;
-      padding: 6px;
+      padding: 4px 8px;
       font-size: 0.75rem;
       font-weight: 900;
       text-align: center;
-      width: 100%;
-      margin-top: 8px;
+      white-space: nowrap;
+      margin-top: 6px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
     #page-peta .thk-pillar {
@@ -416,18 +440,18 @@
       color: white;
       padding: 3px 8px;
       border-radius: 5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .pillar-parahyangan { background: #b91c1c; }
     .pillar-pawongan { background: #1d4ed8; }
     .pillar-palemahan { background: #15803d; }
 
-    #page-peta .category-card.locked .lamp-img { opacity: 0.2; }
+    #page-peta .category-card.locked .lamp-img { opacity: 0.3; filter: grayscale(1); }
     #page-peta .category-card.locked::after {
       content: '🔒';
       position: absolute;
-      top: 35%;
-      font-size: 1.5rem;
+      top: 25px;
+      font-size: 1.6rem;
       z-index: 16;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
     }
@@ -463,7 +487,7 @@
     }
 
     /* ============================================================
-       HALAMAN MAIN (KUIS)
+       HALAMAN MAIN (KUIS & MEKANISME RESPONSIF)
        ============================================================ */
     #page-main {
       background-image: url('backgroundlentera.png');
@@ -521,14 +545,13 @@
       width: 100%;
       max-width: 900px;
       flex: 1;
-      height: calc(100% - 55px);
       background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 4px solid #542c0e;
       border-radius: 20px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-      padding: 18px 14px;
+      padding: 20px 15px;
       z-index: 10;
       display: flex;
       flex-direction: column;
@@ -536,15 +559,14 @@
       overflow: hidden;
     }
     
-     /* Ornamen Bali Atas Bawah Pas & Proporsional */
     .ornamen-top {
       position: absolute;
       top: 4px; 
       left: 50%; 
       transform: translateX(-50%);
       width: 96%; 
-      height: 16px; /* Tinggi disesuaikan agar ukiran terlihat pas dan tidak terpotong */
-      background-image: url('ornamen1.png'); /* Menggunakan ornamen1.png */
+      height: 16px;
+      background-image: url('ornamen1.png');
       background-size: contain; 
       background-repeat: repeat-x;
       background-position: top center;
@@ -556,8 +578,8 @@
       left: 50%; 
       transform: translateX(-50%);
       width: 96%; 
-      height: 16px; /* Tinggi disesuaikan agar simetris dengan bagian atas */
-      background-image: url('ornamen2.png'); /* Menggunakan ornamen2.png */
+      height: 16px;
+      background-image: url('ornamen2.png');
       background-size: contain; 
       background-repeat: repeat-x;
       background-position: bottom center;
@@ -571,13 +593,15 @@
       width: 100%;
       align-items: center;
     }
+    
+    /* Perbaikan Agar Tulisan Soal Tidak Terpotong */
     #page-main .quiz-left-panel {
       flex: 1.2;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       height: 100%;
-      gap: 8px;
+      gap: 12px;
+      justify-content: center;
     }
     #page-main .quiz-right-panel {
       flex: 0.8;
@@ -599,20 +623,24 @@
       overflow: hidden;
     }
     #page-main .quiz-image {
-      max-height: 85%;
-      max-width: 85%;
+      max-height: 90%;
+      max-width: 90%;
       object-fit: contain;
     }
+    
+    /* Penyesuaian Ruang Teks Soal */
     #page-main .question-text {
       color: #271202;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 900;
       line-height: 1.4;
-      background: rgba(255,255,255,0.75);
-      padding: 10px;
-      border-radius: 8px;
+      background: rgba(255,255,255,0.85);
+      padding: 12px;
+      border-radius: 10px;
+      border-left: 5px solid #eab308;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       overflow-y: auto;
-      max-height: 90px;
+      max-height: 120px; /* Diperbesar agar teks terlihat lapang */
     }
     #page-main .options-grid {
       display: grid;
@@ -623,7 +651,7 @@
       background: #fff;
       border: 2px solid #b0703c;
       border-radius: 10px;
-      padding: 8px;
+      padding: 10px;
       font-family: inherit;
       font-size: 0.8rem;
       font-weight: bold;
@@ -633,7 +661,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 40px;
+      min-height: 42px;
       text-align: center;
     }
     #page-main .btn-option:active {
@@ -649,7 +677,87 @@
       background: linear-gradient(to bottom, #f87171, #991b1b); box-shadow: 0 3px 0px #7f1d1d;
     }
 
-    /* Popups & VR Overlays */
+    /* ============================================================
+       MODUL INTERAKTIF MENCOCOKKAN GAMBAR (1 HALAMAN & TARIK GARIS)
+       ============================================================ */
+    .matching-game-layout {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      z-index: 10;
+    }
+    .matching-header {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #321602;
+      background: rgba(255,255,255,0.8);
+      padding: 6px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+    .matching-board {
+      flex: 1;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      gap: 10px;
+    }
+    .matching-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .matching-column {
+      width: 42%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      z-index: 6;
+    }
+    .match-node {
+      background: white;
+      border: 2.5px solid #b0703c;
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .match-node:active { transform: scale(0.98); }
+    .match-node.selected { background: #fef08a; border-color: #eab308; }
+    .match-node.matched { background: #dcfce7; border-color: #22c55e; cursor: default; }
+    
+    .match-node-text { font-size: 0.75rem; font-weight: bold; color: #321602; width: 100%; text-align: center; }
+    .match-node-img-box { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; }
+    .match-node-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+    
+    /* Titk Hubung Garis */
+    .match-dot {
+      width: 12px;
+      height: 12px;
+      background: #eab308;
+      border: 2px solid white;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .matching-column.left-side .match-dot { right: -6px; }
+    .matching-column.right-side .match-dot { left: -6px; }
+    .match-node.matched .match-dot { background: #22c55e; }
+
+    /* Popups & Overlays Modals */
     .popup-overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -659,16 +767,54 @@
     }
     .popup-box {
       background: #3a1d04; border: 4px solid #facc15; border-radius: 20px;
-      padding: 24px; width: 100%; max-width: 350px; text-align: center; color: #fff;
+      padding: 24px; width: 100%; max-width: 360px; text-align: center; color: #fff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .popup-box h2 { color: #facc15; margin-bottom: 12px; font-size: 1.2rem; }
+    .popup-box h2 { color: #facc15; margin-bottom: 12px; font-size: 1.2rem; text-shadow: 2px 2px 0px #000; }
     .btn-popup {
       width: 100%; padding: 10px; font-family: inherit; font-size: 0.9rem;
       font-weight: bold; color: #fff; border-radius: 10px; cursor: pointer; margin-top: 10px; border: none;
+      box-shadow: 0 3px 0px rgba(0,0,0,0.4);
     }
     .btn-continue { background: #16803d; }
+    .btn-retry { background: #ea580c; }
     .btn-vr { background: #6d28d9; }
+    .btn-ar { background: #2563eb; }
 
+    /* ============================================================
+       MODUL REAL-TIME BONUS KAMERA AR (AUGMENTED REALITY)
+       ============================================================ */
+    .ar-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: #000; z-index: 50; display: none; flex-direction: column;
+      justify-content: space-between; align-items: center; color: white;
+    }
+    .ar-video-stream {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: 51;
+    }
+    .ar-3d-element-layer {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 52; pointer-events: none; display: flex; justify-content: center; align-items: center;
+    }
+    /* Aset Budaya Bali Mengambang di Kamera AR */
+    .ar-floating-lantern {
+      width: 140px;
+      height: auto;
+      animation: arFloat 4s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 25px #facc15);
+    }
+    @keyframes arFloat {
+      0% { transform: translateY(-15px) rotate(-5deg) scale(1); }
+      100% { transform: translateY(15px) rotate(5deg) scale(1.05); }
+    }
+    .ar-hud-ui {
+      position: relative; z-index: 55; background: rgba(58, 29, 4, 0.85);
+      padding: 12px; border-radius: 14px; border: 2.5px solid #facc15;
+      margin-top: 15px; text-align: center; max-width: 85%;
+    }
+
+    /* VR Overlay */
     .vr-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: #000; z-index: 40; display: none; flex-direction: column;
@@ -681,7 +827,7 @@
     }
     @keyframes panVR { 0% { transform: translateX(0); } 100% { transform: translateX(-66.6%); } }
     .vr-hud { position: relative; z-index: 45; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 15px; border: 2px solid #facc15; text-align: center; max-width: 80%; }
-    .vr-controls { position: relative; z-index: 45; }
+    .vr-controls { position: relative; z-index: 45; width: 100%; max-width: 300px; }
 
     /* ============================================================
        HALAMAN MATERI
@@ -730,21 +876,20 @@
 
       #page-peta .map-scroll-viewport { margin-top: 60px; height: calc(100% - 120px); }
       #page-peta .map-grid-container { max-width: 580px; gap: 15px; }
-      #page-peta .lamp-frame { max-width: 80px; }
+      #page-peta .lamp-frame { max-width: 75px; height: 75px; }
       #page-peta .category-label { font-size: 0.7rem; padding: 4px; margin-top: 4px; }
       #page-peta .thk-pillar { font-size: 0.6rem; padding: 2px 6px; margin-bottom: 4px; }
       #page-peta .footer-banner { height: 44px; padding: 4px 20px; }
       #page-peta .footer-banner h3 { font-size: 0.75rem; }
       #page-peta .btn-materi { padding: 4px 12px; font-size: 0.7rem; }
 
-#page-main .quiz-container { padding: 14px; }
-      #page-main .question-text { max-height: 75px; font-size: 0.85rem; }
+      #page-main .quiz-container { padding: 14px; }
+      #page-main .question-text { max-height: 80px; font-size: 0.85rem; padding: 8px; }
       #page-main .btn-option { min-height: 36px; font-size: 0.75rem; padding: 6px; }
       #page-main .quiz-visual-box { max-height: 160px; }
-      
     }
 
-    /* Fallback jika orientasi potret diaktifkan */
+    /* Responsive Portrait Mode */
     @media screen and (orientation: portrait) {
       #page-login .logo-container { width: 40%; top: 6%; }
       #page-login .character { width: 25%; max-height: 25vh; }
@@ -755,7 +900,7 @@
       #page-play .controls-container { bottom: 6%; }
 
       #page-peta .map-scroll-viewport { align-items: flex-start; margin-top: 85px; height: calc(100% - 150px); }
-      #page-peta .map-grid-container { grid-template-columns: 1fr; gap: 20px; max-width: 150px; padding-bottom: 20px; }
+      #page-peta .map-grid-container { max-width: 280px; padding-bottom: 20px; }
       #page-peta .footer-banner { flex-direction: column; gap: 4px; text-align: center; height: auto; padding: 8px; }
       #page-peta .footer-banner h3 { max-width: 100%; font-size: 0.75rem; }
 
@@ -879,7 +1024,8 @@
 
   <div class="quiz-container">
     <div class="ornamen-top"></div>
-    <div class="quiz-content-layout">
+    
+    <div class="quiz-content-layout" id="standard-quiz-layout">
       <div class="quiz-left-panel">
         <div class="question-text" id="question-label">Memuat Soal...</div>
         <div class="options-grid" id="options-container"></div>
@@ -890,6 +1036,16 @@
         </div>
       </div>
     </div>
+
+    <div class="matching-game-layout" id="matching-quiz-layout">
+      <div class="matching-header">Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!</div>
+      <div class="matching-board" id="matching-board-area">
+        <canvas class="matching-canvas" id="matching-canvas"></canvas>
+        <div class="matching-column left-side" id="match-left-col"></div>
+        <div class="matching-column right-side" id="match-right-col"></div>
+      </div>
+    </div>
+
     <div class="ornamen-bottom"></div>
   </div>
 
@@ -898,8 +1054,33 @@
       <h2>🎉 LEVEL SELESAI! 🎉</h2>
       <p>Bagus sekali! Seluruh soal pada tingkat ini berhasil dikerjakan.</p>
       <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor: <span id="final-score-val">0</span></div>
+      <button class="btn-popup btn-ar" onclick="startARMode()">📷 Bonus Kamera AR Budaya</button>
       <button class="btn-popup btn-vr" onclick="startVRMode()">🌍 Masuk Virtual Reality (VR)</button>
       <button class="btn-popup btn-continue" onclick="saveAndExitQuiz()">Simpan &amp; Kembali</button>
+    </div>
+  </div>
+
+  <div class="popup-overlay" id="gameover-popup">
+    <div class="popup-box">
+      <h2>💔 NYAWA HABIS! 💔</h2>
+      <p style="margin-bottom: 12px; color:#f87171;">Jangan berkecil hati, mari pelajari materi pustaka kembali atau coba lagi tingkat ini!</p>
+      <button class="btn-popup btn-retry" onclick="startQuiz()">🔄 Coba Lagi Level Ini</button>
+      <button class="btn-popup btn-continue" onclick="navigateTo('materi')">📖 Pelajari Materi Pustaka</button>
+      <button class="btn-popup" style="background:#4b5563;" onclick="navigateTo('peta')">🚪 Kembali ke Peta</button>
+    </div>
+  </div>
+
+  <div class="ar-overlay" id="ar-overlay">
+    <video class="ar-video-stream" id="ar-video" autoplay playsinline></video>
+    <div class="ar-3d-element-layer">
+      <img src="logogame.png" class="ar-floating-lantern" alt="Objek AR" />
+    </div>
+    <div class="ar-hud-ui">
+      <h3 style="color:#facc15;">BONUS AR SPASIAL</h3>
+      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Arahkan kamera ke lingkunganmu dan lihat objek Lentera Bali melayang!</p>
+    </div>
+    <div class="vr-controls" style="padding: 15px;">
+      <button class="btn-popup btn-continue" onclick="closeARMode()">Selesai &amp; Kembali</button>
     </div>
   </div>
 
@@ -964,11 +1145,12 @@
       { q: "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", o: ["Maturan", "Melukat", "Ngejot", "Melasti"], c: 2, img: "parah8.png" },
       { q: "Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...", o: ["Padmasana", "Bale kulkul", "Wantilan", "Lumbung"], c: 0, img: "parah9.png" },
       { q: "Rerahinan Galungan lan Kuningan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", o: ["Penjor", "Tamiang", "Sate", "Lawar"], c: 0, img: "parah10.png" },
-      { q: "[COCOKKAN GAMBAR] Objek tempat suci pusat ibadah utama (Mother Temple) umat Hindu di lereng Gunung Agung pada gambar adalah...", o: ["Pura Tanah Lot", "Pura Besakih", "Pura Uluwatu", "Pura Lempuyang"], c: 1, img: "cocokparah1.png" },
-      { q: "[COCOKKAN GAMBAR] Struktur bangunan suci tempat pemujaan utama di area utama Pura yang menjulang tinggi sesuai gambar adalah...", o: ["Padmasana", "Bale Kulkul", "Wantilan", "Candi Bentar"], c: 0, img: "cocokparah2.png" },
-      { q: "[COCOKKAN GAMBAR] Sarana persembahan harian berupa anyaman janur dengan porosan dan bunga wangi sesuai gambar dinamakan...", o: ["Canang Sari", "Penjor", "Banten Pejati", "Tumpeng"], c: 0, img: "cocokparah3.png" },
-      { q: "[COCOKKAN GAMBAR] Upacara iring-iringan suci membawa pratima menuju laut sebelum hari raya Nyepi pada gambar dinamakan...", o: ["Ngaben", "Melasti", "Mepandes", "Ngerupuk"], c: 1, img: "cocokparah4.png" },
-      { q: "[COCOKKAN GAMBAR] Pura suci religius yang dibangun tepat di atas bongkahan batu karang pantai besar sesuai gambar adalah...", o: ["Pura Uluwatu", "Pura Besakih", "Pura Tanah Lot", "Pura Taman Ayun"], c: 2, img: "cocokparah5.png" }
+      // Paket Cocokkan Gambar (Diproses jadi single-page interaktif)
+      { text: "Pura Besakih", img: "cocokparah1.png" },
+      { text: "Padmasana", img: "cocokparah2.png" },
+      { text: "Canang Sari", img: "cocokparah3.png" },
+      { text: "Melasti", img: "cocokparah4.png" },
+      { text: "Pura Tanah Lot", img: "cocokparah5.png" }
     ],
     2: [ // PAWONGAN
       { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "pawo1.png" },
@@ -981,11 +1163,12 @@
       { q: "Tusing dadi lengit tulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "pawo8.png" },
       { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "pawo9.png" },
       { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "pawo10.png" },
-      { q: "[COCOKKAN GAMBAR] Perilaku positif saling bahu-membahu membersihkan halaman sekolah secara berkelompok sesuai gambar disebut...", o: ["Gotong Royong", "Melaib", "Ngejot", "Ngayah"], c: 0, img: "cocokpawo1.png" },
-      { q: "[COCOKKAN GAMBAR] Cara berkomunikasi dengan posisi tubuh merendah sebagai wujud kesopanan terhadap guru pada gambar merepresentasikan...", o: ["Basa Kasar", "Basa Alus tur Sopan", "Basa Singgih", "Basa Andap"], c: 1, img: "cocokpawo2.png" },
-      { q: "[COCOKKAN GAMBAR] Aktivitas menyimak penyampaian petuah nasihat dari orang tua seperti ditunjukkan gambar merupakan tindakan...", o: ["Resepang pitutur", "Nyingakin", "Kelidin", "Mayus"], c: 0, img: "cocokpawo3.png" },
-      { q: "[COCOKKAN GAMBAR] Perbuatan membantu teman akrab yang sedang terjatuh dari sepeda pada visual gambar di samping merupakan perwujudan...", o: ["Solah Jele", "Saling Tulungin", "Mayus", "Adung"], c: 1, img: "cocokpawo4.png" },
-      { q: "[COCOKKAN GAMBAR] Gambar interaksi harmonis penuh kasih sayang antar anggota keluarga di rumah mencerminkan konsep kehidupan yang...", o: ["Adung (Rukun)", "Uyut", "Lacur", "Mayus"], c: 0, img: "cocokpawo5.png" }
+      // Paket Cocokkan Gambar
+      { text: "Gotong Royong", img: "cocokpawo1.png" },
+      { text: "Basa Alus tur Sopan", img: "cocokpawo2.png" },
+      { text: "Resepang pitutur", img: "cocokpawo3.png" },
+      { text: "Saling Tulungin", img: "cocokpawo4.png" },
+      { text: "Adung (Rukun)", img: "cocokpawo5.png" }
     ],
     3: [ // PALEMAHAN
       { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "paleh1.png" },
@@ -998,11 +1181,12 @@
       { q: "Subak ento organisasi tradisional di Bali ane ngurusin sistem...", o: ["Irigasi sawah", "Dagang busana", "Seni ukir", "Utsaha pariwisata"], c: 0, img: "paleh8.png" },
       { q: "Mantra suci/Pura pemujaan di area subak ditujukan untuk memuja dewi kemakmuran yaitu...", o: ["Dewi Sri", "Dewi Saraswati", "Dewi Durga", "Dewi Kali"], c: 0, img: "paleh9.png" },
       { q: "Pemimpin pelaksana utama dalam tatanan organisasi irigasi Subak Bali disebut...", o: ["Pekaseh", "Perbekel", "Klian", "Bendesa"], c: 0, img: "paleh10.png" },
-      { q: "[COCOKKAN GAMBAR] Tatanan sistem pengairan sawah bertingkat tradisional warisan dunia UNESCO pada gambar adalah...", o: ["Subak", "Lumbung", "Mebersih", "Tukad"], c: 0, img: "cocokpaleh1.png" },
-      { q: "[COCOKKAN GAMBAR] Tindakan melestarikan alam lingkungan dengan meletakkan sampah organik/anorganik sesuai gambar ditempatkan pada...", o: ["Tukad", "Got", "Tong Sampah", "Sémér"], c: 2, img: "cocokpaleh2.png" },
-      { q: "[COCOKKAN GAMBAR] Kegiatan penghijauan menanam bibit pohon hijau pada lahan terbuka sesuai ilustrasi gambar disebut...", o: ["Nanem entik-entikan", "Nyampat", "Ngubuh sampi", "Ngusak alas"], c: 0, img: "cocokpaleh3.png" },
-      { q: "[COCOKKAN GAMBAR] Sesuai visual gambar, memelihara satwa peliharaan sapi di pedesaan disebut dengan istilah...", o: ["Ngubuh sampi", "Nembak kedis", "Miara ayam", "Ngalih luhu"], c: 0, img: "cocokpaleh4.png" },
-      { q: "[COCOKKAN GAMBAR] Perilaku bijak memutar penutup saluran air setelah selesai mencuci/mandi pada gambar merupakan wujud...", o: ["Hemat prabéya", "Hemat yéh (air)", "Nyaga lingkungan", "Mebersih"], c: 1, img: "cocokpaleh5.png" }
+      // Paket Cocokkan Gambar
+      { text: "Subak", img: "cocokpaleh1.png" },
+      { text: "Tong Sampah", img: "cocokpaleh2.png" },
+      { text: "Nanem entik-entikan", img: "cocokpaleh3.png" },
+      { text: "Ngubuh sampi", img: "cocokpaleh4.png" },
+      { text: "Hemat yéh (air)", img: "cocokpaleh5.png" }
     ]
   };
 
@@ -1017,10 +1201,20 @@
   let timerInterval;
   let timeLeft = 20;
 
+  // State Mencocokkan Gambar Tarik Garis
+  let selectedLeftNode = null;
+  let activeLevelMatches = [];
+  let connectedMatches = []; // array of arrays [leftIdx, rightIdx]
+  let canvas, ctx;
+  let localVideoStream = null;
+
   function navigateTo(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById('page-' + pageId);
     if (target) target.classList.add('active');
+
+    // Matikan kamera AR jika berpindah halaman
+    if (pageId !== 'main') { closeARMode(); }
 
     if (pageId === 'play') updatePlayDashboard();
     if (pageId === 'peta') renderMapProgress();
@@ -1090,7 +1284,7 @@
     selectLevel(currentProgress, cat);
   }
 
-  // --- MANAJEMEN PETA & LEVEL LAMPU ---
+  // --- MANAJEMEN PETA ---
   function renderMapProgress() {
     const name = localStorage.getItem('playerName') || 'PEMAIN';
     const cls = localStorage.getItem('playerClass') || '1';
@@ -1113,7 +1307,6 @@
   function selectLevel(lvlNum, category) {
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
     if (lvlNum > unlocked) {
-      alert("⚠️ Selesaikan tingkatan sebelumnya untuk membuka indikator level ini!");
       return;
     }
     currentLevel = lvlNum;
@@ -1127,24 +1320,36 @@
     questionIndex = 0;
     score = 0;
     lives = 3;
+    connectedMatches = [];
+    selectedLeftNode = null;
+
     const catName = currentLevel === 1 ? 'PARAHYANGAN' : currentLevel === 2 ? 'PAWONGAN' : 'PALEMAHAN';
     document.getElementById('level-title').innerText = 'KATEGORI: ' + catName;
     document.getElementById('live-score').innerText = score;
+    
+    // Sembunyikan semua Pop-up modal
     document.getElementById('reward-popup').style.display = 'none';
+    document.getElementById('gameover-popup').style.display = 'none';
     document.getElementById('vr-overlay').style.display = 'none';
+    
     updateHeartsUI();
     displayQuestion();
   }
 
   function displayQuestion() {
-    if (questionIndex >= activeQuestions.length) {
-      endLevelKuis();
+    // Jika melewati 10 soal pilihan ganda, masuk ke halaman babak mencocokkan gambar (Single Page)
+    if (questionIndex === 10) {
+      clearInterval(timerInterval);
+      initMatchingGamePage();
       return;
     }
+
+    // Tampilkan layout standar kuis pilihan ganda
+    document.getElementById('standard-quiz-layout').style.display = 'flex';
+    document.getElementById('matching-quiz-layout').style.display = 'none';
+
     const data = activeQuestions[questionIndex];
     document.getElementById('question-label').innerText = data.q;
-    
-    // Set src gambar lokal
     document.getElementById('question-img').src = data.img;
 
     const optContainer = document.getElementById('options-container');
@@ -1195,13 +1400,14 @@
     }
   }
 
+  // --- PERBAIKAN NOTIFIKASI NYAWA HABIS (KUSTOM POPUP) ---
   function handleWrongAnswer() {
     lives--;
     updateHeartsUI();
     if (lives <= 0) {
       clearInterval(timerInterval);
-      alert("💔 Nyawa habis! Mari pelajari kembali materi pustaka.");
-      navigateTo('peta');
+      // Tampilkan popup game over interaktif kustom tanpa menghentikan paksa aplikasi
+      document.getElementById('gameover-popup').style.display = 'flex';
     } else {
       questionIndex++;
       displayQuestion();
@@ -1214,10 +1420,182 @@
     document.getElementById('heart-container').innerText = heartStr || '💀';
   }
 
+  // ================================================================
+  //  MODUL SISTEM TARIK GARIS MENCOCOKKAN GAMBAR (1 HALAMAN)
+  // ================================================================
+  function initMatchingGamePage() {
+    document.getElementById('standard-quiz-layout').style.display = 'none';
+    document.getElementById('matching-quiz-layout').style.display = 'flex';
+
+    // Ambil data mencocokkan (Indeks 10 sampai 14)
+    activeLevelMatches = activeQuestions.slice(10, 15);
+    connectedMatches = [];
+    selectedLeftNode = null;
+
+    const leftCol = document.getElementById('match-left-col');
+    const rightCol = document.getElementById('match-right-col');
+    leftCol.innerHTML = '';
+    rightCol.innerHTML = '';
+
+    // Acak urutan kanan agar menantang
+    let leftSideData = activeLevelMatches.map((d, i) => ({ text: d.text, originalIdx: i }));
+    let rightSideData = activeLevelMatches.map((d, i) => ({ img: d.img, originalIdx: i }));
+    
+    rightSideData.sort(() => Math.random() - 0.5);
+
+    // Render Kolom Teks (Kiri)
+    leftSideData.forEach((item, index) => {
+      const node = document.createElement('div');
+      node.className = 'match-node';
+      node.dataset.side = 'left';
+      node.dataset.id = item.originalIdx;
+      node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
+      node.onclick = () => handleMatchingClick(node);
+      leftCol.appendChild(node);
+    });
+
+    // Render Kolom Gambar (Kanan)
+    rightSideData.forEach((item, index) => {
+      const node = document.createElement('div');
+      node.className = 'match-node';
+      node.dataset.side = 'right';
+      node.dataset.id = item.originalIdx;
+      node.innerHTML = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div><div class="match-dot"></div>`;
+      node.onclick = () => handleMatchingClick(node);
+      rightCol.appendChild(node);
+    });
+
+    // Setup Canvas Garis
+    canvas = document.getElementById('matching-canvas');
+    ctx = canvas.getContext('2d');
+    setTimeout(resizeMatchingCanvas, 200);
+
+    window.addEventListener('resize', resizeMatchingCanvas);
+  }
+
+  function handleMatchingClick(node) {
+    if (node.classList.contains('matched')) return;
+
+    const side = node.dataset.side;
+    const id = parseInt(node.dataset.id);
+
+    if (side === 'left') {
+      document.querySelectorAll('#match-left-col .match-node').forEach(n => n.classList.remove('selected'));
+      selectedLeftNode = node;
+      node.classList.add('selected');
+    } else if (side === 'right' && selectedLeftNode !== null) {
+      const leftId = parseInt(selectedLeftNode.dataset.id);
+      const rightId = id;
+
+      // Cek apakah jawaban benar (Indeks original kiri harus sama dengan kanan)
+      if (leftId === rightId) {
+        playSFX('benar');
+        score += 15;
+        document.getElementById('live-score').innerText = score;
+
+        selectedLeftNode.classList.remove('selected');
+        selectedLeftNode.classList.add('matched');
+        node.classList.add('matched');
+
+        connectedMatches.push([leftId, rightId]);
+        selectedLeftNode = null;
+        drawMatchingLines();
+
+        // Jika semua 5 gambar berhasil dicocokkan, tingkat selesai!
+        if (connectedMatches.length === 5) {
+          window.removeEventListener('resize', resizeMatchingCanvas);
+          setTimeout(endLevelKuis, 1000);
+        }
+      } else {
+        playSFX('salah');
+        node.style.background = '#f87171';
+        setTimeout(() => { node.style.background = 'white'; }, 500);
+        lives--;
+        updateHeartsUI();
+        if (lives <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('gameover-popup').style.display = 'flex';
+        }
+      }
+    }
+  }
+
+  function resizeMatchingCanvas() {
+    if (!canvas) return;
+    const board = document.getElementById('matching-board-area');
+    canvas.width = board.clientWidth;
+    canvas.height = board.clientHeight;
+    drawMatchingLines();
+  }
+
+  function drawMatchingLines() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    connectedMatches.forEach(pair => {
+      const leftNode = document.querySelector(`#match-left-col .match-node[data-id="${pair[0]}"]`);
+      const rightNode = document.querySelector(`#match-right-col .match-node[data-id="${pair[1]}"]`);
+
+      if (leftNode && rightNode) {
+        const leftDot = leftNode.querySelector('.match-dot');
+        const rightDot = rightNode.querySelector('.match-dot');
+
+        const leftRect = leftDot.getBoundingClientRect();
+        const rightRect = rightDot.getBoundingClientRect();
+        const boardRect = document.getElementById('matching-board-area').getBoundingClientRect();
+
+        const x1 = leftRect.left + leftRect.width / 2 - boardRect.left;
+        const y1 = leftRect.top + leftRect.height / 2 - boardRect.top;
+        const x2 = rightRect.left + rightRect.width / 2 - boardRect.left;
+        const y2 = rightRect.top + rightRect.height / 2 - boardRect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+    });
+  }
+
   function endLevelKuis() {
     clearInterval(timerInterval);
     document.getElementById('final-score-val').innerText = score;
     document.getElementById('reward-popup').style.display = 'flex';
+  }
+
+  // ================================================================
+  //  MODUL FITUR BONUS LIVE STREAMING KAMERA AR SPASIAL
+  // ================================================================
+  function startARMode() {
+    const arOverlay = document.getElementById('ar-overlay');
+    const video = document.getElementById('ar-video');
+    arOverlay.style.display = 'flex';
+
+    // Request stream kamera belakang pengguna secara real-time
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+          localVideoStream = stream;
+          video.srcObject = stream;
+          video.play().catch(() => {});
+        })
+        .catch(err => {
+          console.log("Akses kamera tidak diizinkan atau tidak didukung:", err);
+        });
+    }
+  }
+
+  function closeARMode() {
+    const video = document.getElementById('ar-video');
+    if (localVideoStream) {
+      localVideoStream.getTracks().forEach(track => track.stop());
+      localVideoStream = null;
+    }
+    video.srcObject = null;
+    document.getElementById('ar-overlay').style.display = 'none';
   }
 
   // --- VIRTUAL REALITY (VR 360°) CYCLE ---
