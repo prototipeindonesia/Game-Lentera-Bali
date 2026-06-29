@@ -307,10 +307,10 @@
     }
 
     /* ============================================================
-       HALAMAN PETA (LEVEL SELECTION - ZIG-ZAG PATH)
+       HALAMAN PETA (LEVEL SELECTION - VERTICAL CENTERED PATH)
        ============================================================ */
     #page-peta {
-      background-image: url('backgroundlentera.png');
+      background-image: url('backgroundlevel.png'); /* UPDATE: Mengubah background halaman level */
       background-size: cover;
       background-position: center;
       padding: 20px;
@@ -360,18 +360,19 @@
     #page-peta .map-scroll-viewport::-webkit-scrollbar { width: 6px; }
     #page-peta .map-scroll-viewport::-webkit-scrollbar-thumb { background: rgba(84,44,14,0.5); border-radius: 10px; }
 
-    /* Layout Zig-zag Jalan */
+    /* Layout Jalan Lurus di Tengah */
     #page-peta .map-grid-container {
       width: 100%;
       max-width: 500px;
       display: flex;
       flex-direction: column;
+      align-items: center; /* UPDATE: Menaruh penampung di tengah */
       gap: 35px;
       position: relative;
       padding: 20px 0;
     }
     
-    /* Garis Jalan Ilustrasi Belakang Lampu */
+    /* Garis Jalan Ilustrasi Belakang Lampu Lurus */
     #page-peta .map-grid-container::before {
       content: '';
       position: absolute;
@@ -396,12 +397,11 @@
     }
     #page-peta .category-card:not(.locked):hover { transform: scale(1.1); }
     
-    /* Pengaturan Posisi Jalan Zig-zag */
-    #page-peta .category-card:nth-child(1) { align-self: flex-start; margin-left: 10%; }
+    /* UPDATE: Pengaturan Susunan Lampu Bersusun Lurus di Tengah */
+    #page-peta .category-card:nth-child(1) { align-self: center; margin-left: 0; }
     #page-peta .category-card:nth-child(2) { align-self: center; }
-    #page-peta .category-card:nth-child(3) { align-self: flex-end; margin-right: 10%; }
+    #page-peta .category-card:nth-child(3) { align-self: center; margin-right: 0; }
 
-    /* Mengubah Box Belakang Menjadi Gambar Lampunya Saja */
     #page-peta .lamp-frame {
       width: 90px;
       height: 90px;
@@ -594,7 +594,6 @@
       align-items: center;
     }
     
-    /* Perbaikan Agar Tulisan Soal Tidak Terpotong */
     #page-main .quiz-left-panel {
       flex: 1.2;
       display: flex;
@@ -628,7 +627,6 @@
       object-fit: contain;
     }
     
-    /* Penyesuaian Ruang Teks Soal */
     #page-main .question-text {
       color: #271202;
       font-size: 0.95rem;
@@ -640,7 +638,7 @@
       border-left: 5px solid #eab308;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       overflow-y: auto;
-      max-height: 120px; /* Diperbesar agar teks terlihat lapang */
+      max-height: 120px;
     }
     #page-main .options-grid {
       display: grid;
@@ -742,7 +740,6 @@
     .match-node-img-box { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; }
     .match-node-img { max-height: 100%; max-width: 100%; object-fit: contain; }
     
-    /* Titk Hubung Garis */
     .match-dot {
       width: 12px;
       height: 12px;
@@ -778,7 +775,6 @@
     }
     .btn-continue { background: #16803d; }
     .btn-retry { background: #ea580c; }
-    .btn-vr { background: #6d28d9; }
     .btn-ar { background: #2563eb; }
 
     /* ============================================================
@@ -813,21 +809,6 @@
       padding: 12px; border-radius: 14px; border: 2.5px solid #facc15;
       margin-top: 15px; text-align: center; max-width: 85%;
     }
-
-    /* VR Overlay */
-    .vr-overlay {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: #000; z-index: 40; display: none; flex-direction: column;
-      justify-content: space-between; align-items: center; color: white; padding: 20px;
-    }
-    .vr-viewport-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; }
-    .vr-panoramic-bg {
-      width: 300vw; height: 100%; background-size: cover; background-position: center;
-      position: absolute; animation: panVR 20s linear infinite alternate;
-    }
-    @keyframes panVR { 0% { transform: translateX(0); } 100% { transform: translateX(-66.6%); } }
-    .vr-hud { position: relative; z-index: 45; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 15px; border: 2px solid #facc15; text-align: center; max-width: 80%; }
-    .vr-controls { position: relative; z-index: 45; width: 100%; max-width: 300px; }
 
     /* ============================================================
        HALAMAN MATERI
@@ -1006,7 +987,7 @@
   </div>
 
   <div class="footer-banner">
-    <h3>Selesaikan tingkatan materi untuk membuka fitur Virtual Reality Spasial!</h3>
+    <h3>Selesaikan tingkatan materi untuk membuka fitur Kamera AR Budaya Spasial!</h3>
     <button class="btn-materi" onclick="navigateTo('materi')">📖 Materi Belajar</button>
   </div>
 </div>
@@ -1055,7 +1036,6 @@
       <p>Bagus sekali! Seluruh soal pada tingkat ini berhasil dikerjakan.</p>
       <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor: <span id="final-score-val">0</span></div>
       <button class="btn-popup btn-ar" onclick="startARMode()">📷 Bonus Kamera AR Budaya</button>
-      <button class="btn-popup btn-vr" onclick="startVRMode()">🌍 Masuk Virtual Reality (VR)</button>
       <button class="btn-popup btn-continue" onclick="saveAndExitQuiz()">Simpan &amp; Kembali</button>
     </div>
   </div>
@@ -1073,27 +1053,14 @@
   <div class="ar-overlay" id="ar-overlay">
     <video class="ar-video-stream" id="ar-video" autoplay playsinline></video>
     <div class="ar-3d-element-layer">
-      <img src="logogame.png" class="ar-floating-lantern" alt="Objek AR" />
+      <img id="ar-floating-img" src="AR1.png" class="ar-floating-lantern" alt="Objek AR" />
     </div>
     <div class="ar-hud-ui">
       <h3 style="color:#facc15;">BONUS AR SPASIAL</h3>
-      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Arahkan kamera ke lingkunganmu dan lihat objek Lentera Bali melayang!</p>
+      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Arahkan kamera ke lingkunganmu dan lihat objek warisan budaya Bali melayang!</p>
     </div>
     <div class="vr-controls" style="padding: 15px;">
       <button class="btn-popup btn-continue" onclick="closeARMode()">Selesai &amp; Kembali</button>
-    </div>
-  </div>
-
-  <div class="vr-overlay" id="vr-overlay">
-    <div class="vr-viewport-wrapper">
-      <div class="vr-panoramic-bg" id="vr-bg-layer"></div>
-    </div>
-    <div class="vr-hud">
-      <h3 id="vr-title" style="color:#facc15;">VIRTUAL REALITY SPASIAL</h3>
-      <p id="vr-description" style="font-size:0.8rem; color:#ddd; margin-top:5px;"></p>
-    </div>
-    <div class="vr-controls">
-      <button class="btn-popup btn-continue" onclick="closeVRMode()">Selesai &amp; Kembali ke Peta</button>
     </div>
   </div>
 </div>
@@ -1145,7 +1112,6 @@
       { q: "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", o: ["Maturan", "Melukat", "Ngejot", "Melasti"], c: 2, img: "parah8.png" },
       { q: "Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...", o: ["Padmasana", "Bale kulkul", "Wantilan", "Lumbung"], c: 0, img: "parah9.png" },
       { q: "Rerahinan Galungan lan Kuningan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", o: ["Penjor", "Tamiang", "Sate", "Lawar"], c: 0, img: "parah10.png" },
-      // Paket Cocokkan Gambar (Diproses jadi single-page interaktif)
       { text: "Pura Besakih", img: "cocokparah1.png" },
       { text: "Penjor", img: "cocokparah3.png" },
       { text: "Canang", img: "cocokparah2.png" },
@@ -1163,7 +1129,6 @@
       { q: "Tusing dadi lengit tulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "pawo8.png" },
       { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "pawo9.png" },
       { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "pawo10.png" },
-      // Paket Cocokkan Gambar
       { text: "Pajeng", img: "cocokpawo1.png" },
       { text: "Galeng", img: "cocokpawo2.png" },
       { text: "Klepon", img: "cocokpawo3.jpeg" },
@@ -1181,7 +1146,6 @@
       { q: "Subak ento organisasi tradisional di Bali ane ngurusin sistem...", o: ["Irigasi sawah", "Dagang busana", "Seni ukir", "Utsaha pariwisata"], c: 0, img: "paleh8.png" },
       { q: "Mantra suci/Pura pemujaan di area subak ditujukan untuk memuja dewi kemakmuran yaitu...", o: ["Dewi Sri", "Dewi Saraswati", "Dewi Durga", "Dewi Kali"], c: 0, img: "paleh9.png" },
       { q: "Pemimpin pelaksana utama dalam tatanan organisasi irigasi Subak Bali disebut...", o: ["Pekaseh", "Perbekel", "Klian", "Bendesa"], c: 0, img: "paleh10.png" },
-      // Paket Cocokkan Gambar
       { text: "Subak", img: "cocokpaleh1.png" },
       { text: "Tong Sampah", img: "cocokpaleh2.png" },
       { text: "Nanem entik-entikan", img: "cocokpaleh3.png" },
@@ -1201,10 +1165,9 @@
   let timerInterval;
   let timeLeft = 20;
 
-  // State Mencocokkan Gambar Tarik Garis
   let selectedLeftNode = null;
   let activeLevelMatches = [];
-  let connectedMatches = []; // array of arrays [leftIdx, rightIdx]
+  let connectedMatches = []; 
   let canvas, ctx;
   let localVideoStream = null;
 
@@ -1213,14 +1176,12 @@
     const target = document.getElementById('page-' + pageId);
     if (target) target.classList.add('active');
 
-    // Matikan kamera AR jika berpindah halaman
     if (pageId !== 'main') { closeARMode(); }
 
     if (pageId === 'play') updatePlayDashboard();
     if (pageId === 'peta') renderMapProgress();
   }
 
-  // --- AUDIO CONTROLLER ---
   const bgMusic = document.getElementById('bg-music');
   function toggleMusic() {
     const isMuted = localStorage.getItem('muted') === 'true';
@@ -1255,7 +1216,6 @@
     }
   }
 
-  // --- REGISTRASI PEMAIN ---
   document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('player-name').value.trim();
@@ -1284,7 +1244,6 @@
     selectLevel(currentProgress, cat);
   }
 
-  // --- MANAJEMEN PETA ---
   function renderMapProgress() {
     const name = localStorage.getItem('playerName') || 'PEMAIN';
     const cls = localStorage.getItem('playerClass') || '1';
@@ -1315,7 +1274,6 @@
     startQuiz();
   }
 
-  // --- MEKANISME KUIS ---
   function startQuiz() {
     questionIndex = 0;
     score = 0;
@@ -1327,24 +1285,20 @@
     document.getElementById('level-title').innerText = 'KATEGORI: ' + catName;
     document.getElementById('live-score').innerText = score;
     
-    // Sembunyikan semua Pop-up modal
     document.getElementById('reward-popup').style.display = 'none';
     document.getElementById('gameover-popup').style.display = 'none';
-    document.getElementById('vr-overlay').style.display = 'none';
     
     updateHeartsUI();
     displayQuestion();
   }
 
   function displayQuestion() {
-    // Jika melewati 10 soal pilihan ganda, masuk ke halaman babak mencocokkan gambar (Single Page)
     if (questionIndex === 10) {
       clearInterval(timerInterval);
       initMatchingGamePage();
       return;
     }
 
-    // Tampilkan layout standar kuis pilihan ganda
     document.getElementById('standard-quiz-layout').style.display = 'flex';
     document.getElementById('matching-quiz-layout').style.display = 'none';
 
@@ -1400,13 +1354,11 @@
     }
   }
 
-  // --- PERBAIKAN NOTIFIKASI NYAWA HABIS (KUSTOM POPUP) ---
   function handleWrongAnswer() {
     lives--;
     updateHeartsUI();
     if (lives <= 0) {
       clearInterval(timerInterval);
-      // Tampilkan popup game over interaktif kustom tanpa menghentikan paksa aplikasi
       document.getElementById('gameover-popup').style.display = 'flex';
     } else {
       questionIndex++;
@@ -1427,7 +1379,6 @@
     document.getElementById('standard-quiz-layout').style.display = 'none';
     document.getElementById('matching-quiz-layout').style.display = 'flex';
 
-    // Ambil data mencocokkan (Indeks 10 sampai 14)
     activeLevelMatches = activeQuestions.slice(10, 15);
     connectedMatches = [];
     selectedLeftNode = null;
@@ -1437,13 +1388,11 @@
     leftCol.innerHTML = '';
     rightCol.innerHTML = '';
 
-    // Acak urutan kanan agar menantang
     let leftSideData = activeLevelMatches.map((d, i) => ({ text: d.text, originalIdx: i }));
     let rightSideData = activeLevelMatches.map((d, i) => ({ img: d.img, originalIdx: i }));
     
     rightSideData.sort(() => Math.random() - 0.5);
 
-    // Render Kolom Teks (Kiri)
     leftSideData.forEach((item, index) => {
       const node = document.createElement('div');
       node.className = 'match-node';
@@ -1454,7 +1403,6 @@
       leftCol.appendChild(node);
     });
 
-    // Render Kolom Gambar (Kanan)
     rightSideData.forEach((item, index) => {
       const node = document.createElement('div');
       node.className = 'match-node';
@@ -1465,7 +1413,6 @@
       rightCol.appendChild(node);
     });
 
-    // Setup Canvas Garis
     canvas = document.getElementById('matching-canvas');
     ctx = canvas.getContext('2d');
     setTimeout(resizeMatchingCanvas, 200);
@@ -1487,7 +1434,6 @@
       const leftId = parseInt(selectedLeftNode.dataset.id);
       const rightId = id;
 
-      // Cek apakah jawaban benar (Indeks original kiri harus sama dengan kanan)
       if (leftId === rightId) {
         playSFX('benar');
         score += 15;
@@ -1501,7 +1447,6 @@
         selectedLeftNode = null;
         drawMatchingLines();
 
-        // Jika semua 5 gambar berhasil dicocokkan, tingkat selesai!
         if (connectedMatches.length === 5) {
           window.removeEventListener('resize', resizeMatchingCanvas);
           setTimeout(endLevelKuis, 1000);
@@ -1572,9 +1517,15 @@
   function startARMode() {
     const arOverlay = document.getElementById('ar-overlay');
     const video = document.getElementById('ar-video');
+    const arImg = document.getElementById('ar-floating-img');
+    
+    // UPDATE: Mengubah gambar AR sesuai level secara dinamis (AR1.png, AR2.png, AR3.png)
+    if (arImg) {
+      arImg.src = "AR" + currentLevel + ".png";
+    }
+
     arOverlay.style.display = 'flex';
 
-    // Request stream kamera belakang pengguna secara real-time
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(stream => {
@@ -1598,36 +1549,6 @@
     document.getElementById('ar-overlay').style.display = 'none';
   }
 
-  // --- VIRTUAL REALITY (VR 360°) CYCLE ---
-  function startVRMode() {
-    document.getElementById('reward-popup').style.display = 'none';
-    const vrOverlay = document.getElementById('vr-overlay');
-    const vrBg = document.getElementById('vr-bg-layer');
-    const vrTitle = document.getElementById('vr-title');
-    const vrDesc = document.getElementById('vr-description');
-
-    if (currentLevel === 1) {
-      vrTitle.innerText = "VR PARAHYANGAN 360°";
-      vrDesc.innerText = "Menjelajahi keheningan area Pura Luhur Besakih, altar Padmasana, serta ketulusan sesajen Canang Sari.";
-      vrBg.style.backgroundImage = "url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80')";
-    } else if (currentLevel === 2) {
-      vrTitle.innerText = "VR PAWONGAN 360°";
-      vrDesc.innerText = "Menyaksikan interaksi sosial gotong royong, tradisi ngayah, dan komunikasi sopan santun warga Bali.";
-      vrBg.style.backgroundImage = "url('https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80')";
-    } else {
-      vrTitle.innerText = "VR PALEMAHAN 360°";
-      vrDesc.innerText = "Menelusuri hamparan hijau sawah berundak Tegalalang serta saluran irigasi ekologis Subak Bali.";
-      vrBg.style.backgroundImage = "url('https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=1200&q=80')";
-    }
-
-    vrOverlay.style.display = 'flex';
-  }
-
-  function closeVRMode() {
-    document.getElementById('vr-overlay').style.display = 'none';
-    saveAndExitQuiz();
-  }
-
   function saveAndExitQuiz() {
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
     if (currentLevel === unlocked && unlocked < 3) {
@@ -1641,7 +1562,6 @@
     navigateTo('peta');
   }
 
-  // --- PUSTAKA MATERI TAB MANAGER ---
   function switchMateri(id) {
     document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.materi-section').forEach(s => s.classList.remove('active'));
@@ -1650,7 +1570,6 @@
     document.getElementById('mat-' + id).classList.add('active');
   }
 
-  // --- INITIALIZATION ---
   window.onload = function() {
     if (localStorage.getItem('playerName')) {
       navigateTo('play');
