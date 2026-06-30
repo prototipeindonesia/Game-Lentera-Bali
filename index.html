@@ -792,21 +792,56 @@
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       z-index: 52; pointer-events: none; display: flex; justify-content: center; align-items: center;
     }
+    
+    /* UPDATE: Memperbesar ukuran gambar AR agar tampak melayang lebih besar & imersif */
     .ar-floating-lantern {
-      width: 140px;
+      width: 260px; /* Ukuran diperbesar dari 140px */
       height: auto;
       animation: arFloat 4s ease-in-out infinite alternate;
-      filter: drop-shadow(0 0 25px #facc15);
+      filter: drop-shadow(0 0 30px #facc15);
     }
     @keyframes arFloat {
-      0% { transform: translateY(-15px) rotate(-5deg) scale(1); }
-      100% { transform: translateY(15px) rotate(5deg) scale(1.05); }
+      0% { transform: translateY(-20px) rotate(-6deg) scale(1); }
+      100% { transform: translateY(20px) rotate(6deg) scale(1.08); }
     }
     .ar-hud-ui {
       position: relative; z-index: 55; background: rgba(58, 29, 4, 0.85);
       padding: 12px; border-radius: 14px; border: 2.5px solid #facc15;
       margin-top: 15px; text-align: center; max-width: 85%;
     }
+    
+    /* UPDATE: Kontrol Navigasi AR Row Buttons */
+    .ar-action-controls {
+      position: relative;
+      z-index: 55;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      gap: 12px;
+      padding: 15px 20px 25px 20px;
+    }
+    .btn-ar-nav {
+      flex: 1;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #fff;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 0px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-shadow: 1px 1px 1px #000;
+    }
+    .btn-ar-nav:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0px rgba(0,0,0,0.3);
+    }
+    .btn-ar-back { background: linear-gradient(to bottom, #ea580c, #c2410c); }
+    .btn-ar-next { background: linear-gradient(to bottom, #22c55e, #15803d); }
 
     /* ============================================================
        HALAMAN MATERI
@@ -866,6 +901,9 @@
       #page-main .question-text { max-height: 80px; font-size: 0.85rem; padding: 8px; }
       #page-main .btn-option { min-height: 36px; font-size: 0.75rem; padding: 6px; }
       #page-main .quiz-visual-box { max-height: 160px; }
+      
+      #page-main .ar-floating-lantern { width: 190px; } /* Skala landscape disesuaikan */
+      #page-main .ar-action-controls { padding-bottom: 12px; }
     }
 
     /* Responsive Portrait Mode */
@@ -1050,15 +1088,19 @@
 
   <div class="ar-overlay" id="ar-overlay">
     <video class="ar-video-stream" id="ar-video" autoplay playsinline></video>
+    
+    <div class="ar-hud-ui">
+      <h3 style="color:#facc15;" id="ar-hud-title">BONUS AR SPASIAL</h3>
+      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Arahkan kamera ke lingkunganmu dan lihat objek warisan budaya Bali melayang!</p>
+    </div>
+
     <div class="ar-3d-element-layer">
       <img id="ar-floating-img" src="AR1.png" class="ar-floating-lantern" alt="Objek AR" />
     </div>
-    <div class="ar-hud-ui">
-      <h3 style="color:#facc15;">BONUS AR SPASIAL</h3>
-      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Arahkan kamera ke lingkunganmu dan lihat objek warisan budaya Bali melayang!</p>
-    </div>
-    <div class="vr-controls" style="padding: 15px;">
-      <button class="btn-popup btn-continue" onclick="closeARMode()">Selesai &amp; Kembali</button>
+
+    <div class="ar-action-controls">
+      <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
+      <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
     </div>
   </div>
 </div>
@@ -1133,7 +1175,7 @@
       { type: "text-to-image", text: "Matan ai", img: "cocokpawo4.jpg" },
       { type: "text-to-image", text: "Kuping (Telinga)", img: "cocokpawo5.jpg" }
     ],
-    3: [ // PALEMAHAN (UPDATE: Gambar ke Gambar untuk Soal Cocok Gambar)
+    3: [ // PALEMAHAN
       { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "paleh1.png" },
       { q: "Ngutang luu patutné di....", o: ["Tukad", "Sémér", "Got", "Tong sampah"], c: 3, img: "paleh2.png" },
       { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "paleh3.png" },
@@ -1381,7 +1423,6 @@
     connectedMatches = [];
     selectedLeftNode = null;
 
-    // UPDATE: Atur instruksi header dinamis berdasarkan tipe level soal
     const instrText = document.getElementById('matching-instruction-text');
     if (currentLevel === 3) {
       instrText.innerText = "Hubungkan Gambar di Kiri dengan Gambar yang Sesuai di Kanan!";
@@ -1394,7 +1435,6 @@
     leftCol.innerHTML = '';
     rightCol.innerHTML = '';
 
-    // Menyiapkan struktur data kiri dan kanan
     let leftSideData = activeLevelMatches.map((d, i) => {
       return { type: d.type, text: d.text, leftImg: d.leftImg, originalIdx: i };
     });
@@ -1402,10 +1442,8 @@
       return { img: d.img, originalIdx: i };
     });
     
-    // Acak posisi jawaban kolom sebelah kanan
     rightSideData.sort(() => Math.random() - 0.5);
 
-    // Render Kolom Kiri (Dinamis: Bisa teks kata atau objek gambar)
     leftSideData.forEach((item) => {
       const node = document.createElement('div');
       node.className = 'match-node';
@@ -1413,10 +1451,8 @@
       node.dataset.id = item.originalIdx;
       
       if (item.type === "image-to-image") {
-        // UPDATE: Mode Gambar ke Gambar (Level 3 Palemahan)
         node.innerHTML = `<div class="match-node-img-box"><img src="${item.leftImg}" class="match-node-img"></div><div class="match-dot"></div>`;
       } else {
-        // Mode Kata ke Gambar (Level 1 & 2)
         node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
       }
       
@@ -1424,7 +1460,6 @@
       leftCol.appendChild(node);
     });
 
-    // Render Kolom Kanan (Selalu Gambar)
     rightSideData.forEach((item) => {
       const node = document.createElement('div');
       node.className = 'match-node';
@@ -1527,6 +1562,10 @@
     });
   }
 
+  function deleteProgressData() {
+    // Sesi internal cleanup state jika dibutuhkan
+  }
+
   function endLevelKuis() {
     clearInterval(timerInterval);
     document.getElementById('final-score-val').innerText = score;
@@ -1540,9 +1579,17 @@
     const arOverlay = document.getElementById('ar-overlay');
     const video = document.getElementById('ar-video');
     const arImg = document.getElementById('ar-floating-img');
+    const nextBtn = document.getElementById('btn-ar-next-action');
     
     if (arImg) {
       arImg.src = "AR" + currentLevel + ".png";
+    }
+
+    // UPDATE: Set label tombol Next Level secara dinamis berdasarkan progres level
+    if (currentLevel >= 3) {
+      nextBtn.innerText = "Simpan & Selesai Kuis 🏁";
+    } else {
+      nextBtn.innerText = "Level Selanjutnya →";
     }
 
     arOverlay.style.display = 'flex';
@@ -1570,15 +1617,41 @@
     document.getElementById('ar-overlay').style.display = 'none';
   }
 
-  function saveAndExitQuiz() {
+  // UPDATE: Fungsi penanganan aksi tombol navigasi baru di AR
+  function exitARToMap() {
+    saveProgressState();
+    closeARMode();
+    navigateTo('peta');
+  }
+
+  function proceedToNextLevel() {
+    saveProgressState();
+    closeARMode();
+    
+    if (currentLevel < 3) {
+      // Otomatis lanjut ke tingkatan level berikutnya
+      const nextLvl = currentLevel + 1;
+      const categories = { 2: "Pawongan", 3: "Palemahan" };
+      selectLevel(nextLvl, categories[nextLvl]);
+    } else {
+      // Jika sudah tamat level 3, arahkan ke dashboard peta utama
+      navigateTo('peta');
+    }
+  }
+
+  function saveProgressState() {
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
     if (currentLevel === unlocked && unlocked < 3) {
       localStorage.setItem('unlockedLevel', unlocked + 1);
     }
-
     const prevScore = parseInt(localStorage.getItem('totalScore')) || 0;
     localStorage.setItem('totalScore', prevScore + score);
+    // Reset internal score agar tidak terakumulasi ganda saat submit ulang
+    score = 0; 
+  }
 
+  function saveAndExitQuiz() {
+    saveProgressState();
     document.getElementById('reward-popup').style.display = 'none';
     navigateTo('peta');
   }
