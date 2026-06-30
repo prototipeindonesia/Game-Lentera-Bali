@@ -310,7 +310,7 @@
        HALAMAN PETA (LEVEL SELECTION - VERTICAL CENTERED PATH)
        ============================================================ */
     #page-peta {
-      background-image: url('backgroundlevel.png'); /* UPDATE: Mengubah background halaman level */
+      background-image: url('backgroundlevel.png');
       background-size: cover;
       background-position: center;
       padding: 20px;
@@ -366,7 +366,7 @@
       max-width: 500px;
       display: flex;
       flex-direction: column;
-      align-items: center; /* UPDATE: Menaruh penampung di tengah */
+      align-items: center;
       gap: 35px;
       position: relative;
       padding: 20px 0;
@@ -397,7 +397,6 @@
     }
     #page-peta .category-card:not(.locked):hover { transform: scale(1.1); }
     
-    /* UPDATE: Pengaturan Susunan Lampu Bersusun Lurus di Tengah */
     #page-peta .category-card:nth-child(1) { align-self: center; margin-left: 0; }
     #page-peta .category-card:nth-child(2) { align-self: center; }
     #page-peta .category-card:nth-child(3) { align-self: center; margin-right: 0; }
@@ -793,7 +792,6 @@
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       z-index: 52; pointer-events: none; display: flex; justify-content: center; align-items: center;
     }
-    /* Aset Budaya Bali Mengambang di Kamera AR */
     .ar-floating-lantern {
       width: 140px;
       height: auto;
@@ -1019,7 +1017,7 @@
     </div>
 
     <div class="matching-game-layout" id="matching-quiz-layout">
-      <div class="matching-header">Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!</div>
+      <div class="matching-header" id="matching-instruction-text">Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!</div>
       <div class="matching-board" id="matching-board-area">
         <canvas class="matching-canvas" id="matching-canvas"></canvas>
         <div class="matching-column left-side" id="match-left-col"></div>
@@ -1112,11 +1110,11 @@
       { q: "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", o: ["Maturan", "Melukat", "Ngejot", "Melasti"], c: 2, img: "parah8.png" },
       { q: "Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...", o: ["Padmasana", "Bale kulkul", "Wantilan", "Lumbung"], c: 0, img: "parah9.png" },
       { q: "Rerahinan Galungan lan Kuningan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", o: ["Penjor", "Tamiang", "Sate", "Lawar"], c: 0, img: "parah10.png" },
-      { text: "Pura Besakih", img: "cocokparah1.png" },
-      { text: "Penjor", img: "cocokparah3.png" },
-      { text: "Canang", img: "cocokparah2.png" },
-      { text: "Mebakti", img: "cocokparah5.png" },
-      { text: "Pura Tanah Lot", img: "cocokparah4.png" }
+      { type: "text-to-image", text: "Pura Besakih", img: "cocokparah1.png" },
+      { type: "text-to-image", text: "Penjor", img: "cocokparah3.png" },
+      { type: "text-to-image", text: "Canang", img: "cocokparah2.png" },
+      { type: "text-to-image", text: "Mebakti", img: "cocokparah5.png" },
+      { type: "text-to-image", text: "Pura Tanah Lot", img: "cocokparah4.png" }
     ],
     2: [ // PAWONGAN
       { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "pawo1.png" },
@@ -1129,13 +1127,13 @@
       { q: "Tusing dadi lengit tulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "pawo8.png" },
       { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "pawo9.png" },
       { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "pawo10.png" },
-      { text: "Pajeng", img: "cocokpawo1.png" },
-      { text: "Galeng", img: "cocokpawo2.png" },
-      { text: "Klepon", img: "cocokpawo3.jpeg" },
-      { text: "Matan ai", img: "cocokpawo4.jpg" },
-      { text: "Kuping (Telinga)", img: "cocokpawo5.jpg" }
+      { type: "text-to-image", text: "Pajeng", img: "cocokpawo1.png" },
+      { type: "text-to-image", text: "Galeng", img: "cocokpawo2.png" },
+      { type: "text-to-image", text: "Klepon", img: "cocokpawo3.jpeg" },
+      { type: "text-to-image", text: "Matan ai", img: "cocokpawo4.jpg" },
+      { type: "text-to-image", text: "Kuping (Telinga)", img: "cocokpawo5.jpg" }
     ],
-    3: [ // PALEMAHAN
+    3: [ // PALEMAHAN (UPDATE: Gambar ke Gambar untuk Soal Cocok Gambar)
       { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "paleh1.png" },
       { q: "Ngutang luu patutné di....", o: ["Tukad", "Sémér", "Got", "Tong sampah"], c: 3, img: "paleh2.png" },
       { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "paleh3.png" },
@@ -1146,11 +1144,11 @@
       { q: "Subak ento organisasi tradisional di Bali ane ngurusin sistem...", o: ["Irigasi sawah", "Dagang busana", "Seni ukir", "Utsaha pariwisata"], c: 0, img: "paleh8.png" },
       { q: "Mantra suci/Pura pemujaan di area subak ditujukan untuk memuja dewi kemakmuran yaitu...", o: ["Dewi Sri", "Dewi Saraswati", "Dewi Durga", "Dewi Kali"], c: 0, img: "paleh9.png" },
       { q: "Pemimpin pelaksana utama dalam tatanan organisasi irigasi Subak Bali disebut...", o: ["Pekaseh", "Perbekel", "Klian", "Bendesa"], c: 0, img: "paleh10.png" },
-      { text: "Subak", img: "cocokpaleh1.png" },
-      { text: "Tong Sampah", img: "cocokpaleh2.png" },
-      { text: "Nanem entik-entikan", img: "cocokpaleh3.png" },
-      { text: "Ngubuh sampi", img: "cocokpaleh4.png" },
-      { text: "Hemat yéh (air)", img: "cocokpaleh5.png" }
+      { type: "image-to-image", leftImg: "soalpaleh1.jpg", img: "cocokpaleh1.png" },
+      { type: "image-to-image", leftImg: "soalpaleh2.jpg", img: "cocokpaleh2.png" },
+      { type: "image-to-image", leftImg: "soalpaleh3.jpg", img: "cocokpaleh3.png" },
+      { type: "image-to-image", leftImg: "soalpaleh4.jpg", img: "cocokpaleh4.png" },
+      { type: "image-to-image", leftImg: "soalpaleh5.jpg", img: "cocokpaleh5.png" }
     ]
   };
 
@@ -1383,27 +1381,51 @@
     connectedMatches = [];
     selectedLeftNode = null;
 
+    // UPDATE: Atur instruksi header dinamis berdasarkan tipe level soal
+    const instrText = document.getElementById('matching-instruction-text');
+    if (currentLevel === 3) {
+      instrText.innerText = "Hubungkan Gambar di Kiri dengan Gambar yang Sesuai di Kanan!";
+    } else {
+      instrText.innerText = "Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!";
+    }
+
     const leftCol = document.getElementById('match-left-col');
     const rightCol = document.getElementById('match-right-col');
     leftCol.innerHTML = '';
     rightCol.innerHTML = '';
 
-    let leftSideData = activeLevelMatches.map((d, i) => ({ text: d.text, originalIdx: i }));
-    let rightSideData = activeLevelMatches.map((d, i) => ({ img: d.img, originalIdx: i }));
+    // Menyiapkan struktur data kiri dan kanan
+    let leftSideData = activeLevelMatches.map((d, i) => {
+      return { type: d.type, text: d.text, leftImg: d.leftImg, originalIdx: i };
+    });
+    let rightSideData = activeLevelMatches.map((d, i) => {
+      return { img: d.img, originalIdx: i };
+    });
     
+    // Acak posisi jawaban kolom sebelah kanan
     rightSideData.sort(() => Math.random() - 0.5);
 
-    leftSideData.forEach((item, index) => {
+    // Render Kolom Kiri (Dinamis: Bisa teks kata atau objek gambar)
+    leftSideData.forEach((item) => {
       const node = document.createElement('div');
       node.className = 'match-node';
       node.dataset.side = 'left';
       node.dataset.id = item.originalIdx;
-      node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
+      
+      if (item.type === "image-to-image") {
+        // UPDATE: Mode Gambar ke Gambar (Level 3 Palemahan)
+        node.innerHTML = `<div class="match-node-img-box"><img src="${item.leftImg}" class="match-node-img"></div><div class="match-dot"></div>`;
+      } else {
+        // Mode Kata ke Gambar (Level 1 & 2)
+        node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
+      }
+      
       node.onclick = () => handleMatchingClick(node);
       leftCol.appendChild(node);
     });
 
-    rightSideData.forEach((item, index) => {
+    // Render Kolom Kanan (Selalu Gambar)
+    rightSideData.forEach((item) => {
       const node = document.createElement('div');
       node.className = 'match-node';
       node.dataset.side = 'right';
@@ -1519,7 +1541,6 @@
     const video = document.getElementById('ar-video');
     const arImg = document.getElementById('ar-floating-img');
     
-    // UPDATE: Mengubah gambar AR sesuai level secara dinamis (AR1.png, AR2.png, AR3.png)
     if (arImg) {
       arImg.src = "AR" + currentLevel + ".png";
     }
